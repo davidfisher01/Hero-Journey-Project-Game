@@ -30,6 +30,7 @@ public class Island extends JPanel implements ActionListener, MouseListener {
 		t.start();
 		frame.setVisible(true);
 	}
+	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		//  -- Image Mapping --

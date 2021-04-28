@@ -1,5 +1,5 @@
 
-public class Queen extends Protagonist{
+public class Queen /*extends Protagonist*/ {
 
 	
 	
