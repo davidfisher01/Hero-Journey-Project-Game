@@ -13,7 +13,5 @@ public class Protagonist extends Sprite{
 	
 	public Protagonist (String fileName, int width, int height) {
 		super(fileName, width, height);
-		width 	= 100;
-		height 	= 100;
 	}
 }
