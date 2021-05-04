@@ -24,6 +24,38 @@ public abstract class Sprite{
 		init(x, y); //initialize the x,y position of the image
 		
 	}
+
+	protected AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
+
+	// draw the affine transform
+	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		update();
+		g2.drawImage(img, tx, null);
+		
+	}
+	
+	// gets image and process it
+	public void update() {
+		tx.setToTranslation(x, y);
+	}
+
+	private void init(double a, double b) {
+		tx.setToTranslation(a, b);
+		tx.scale(1, 1);
+	}
+
+	// converts image to make it drawable in paint
+	private Image getImage(String path) {
+		Image tempImage = null;
+		try {
+			URL imageURL = Sprite.class.getResource(path);
+			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tempImage;
+	}
 	
 	public int getX() {
 		return x;
@@ -55,38 +87,6 @@ public abstract class Sprite{
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	// gets image and process it
-	public void update() {
-		tx.setToTranslation(x, y);
-	}
-
-	private AffineTransform tx = AffineTransform.getTranslateInstance(x, y);
-
-	// draw the affine transform
-	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		update();
-		g2.drawImage(img, tx, null);
-		
-	}
-
-	private void init(double a, double b) {
-		tx.setToTranslation(a, b);
-		tx.scale(1, 1);
-	}
-
-	// converts image to make it drawable in paint
-	private Image getImage(String path) {
-		Image tempImage = null;
-		try {
-			URL imageURL = Sprite.class.getResource(path);
-			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return tempImage;
 	}
 
 	/* Helper function for collision detection later */
