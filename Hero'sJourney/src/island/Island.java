@@ -11,7 +11,11 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import javax.swing.Timer;
+import java.io.File;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Island extends JPanel implements ActionListener, KeyListener, MouseListener {
 	
@@ -20,6 +24,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	IslandBackground i;
 	Protagonist p;
+	
+	Music bg;
 	
 	public int x, y;
 	public int vx, vy;
@@ -73,6 +79,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//create all instnace variable objects in the constructorr
 		p = new Protagonist("bronc.png", f.getWidth()/2, f.getHeight()/2, 50, 50);
 		i = new IslandBackground("testIsland.png", f.getWidth()*2, f.getHeight()*2);
+		
+		Music bg = new Music("22.wav", true);
+		bg.loop();
 	}
 	
 	public void updateBackground() {
@@ -95,19 +104,19 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
-			System.out.println("s");
+			//System.out.println("player: moved south");
 			vy = -5;
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
-			System.out.println("n");
+			//System.out.println("player: moved north");
 			vy = 5;
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
-			System.out.println("e");
+			//System.out.println("player: moved east");
 			vx = -5;
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
-			System.out.println("w");
+			//System.out.println("player: moved west");
 			vx = 5;
 		}
 	}
@@ -116,19 +125,19 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
-			System.out.println("s released");
+			//System.out.println("player: stopped south");
 			vy = 0;
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
-			System.out.println("n released");
+			//System.out.println("player: stopped north");
 			vy = 0;
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
-			System.out.println("e released");
+			//System.out.println("player: stopped east");
 			vx = 0;
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
-			System.out.println("w released");
+			//System.out.println("player: stopped west");
 			vx = 0;
 		}
 	}
