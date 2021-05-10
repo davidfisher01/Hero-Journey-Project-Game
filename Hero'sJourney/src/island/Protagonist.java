@@ -11,8 +11,6 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Protagonist extends Sprite{
-	private int vx;
-	private int vy;
 	
 	public Protagonist (String fileName, int x, int y, int width, int height) {
 		super(fileName, width, height);

@@ -29,6 +29,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	IslandBackground i;
 	Protagonist p;
+	Extra e1;
 	
 	Music bg;
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -44,12 +45,33 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		//call paint methods of objects or through g.drawRect etc
 		i.paint(g);
+		e1.paint(g);
+		
+		//paint player last
 		p.paint(g);
 		
 		i.setVx(vx);
 		i.setVy(vy);
+		e1.setVx(vx);
+		e1.setVy(vy);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
+	}
+	
+	public void displayText(String c) {
+    	t = new JTextArea();
+    	f.add(t);
+    	t.setFont(verdana);
+    	t.setText(c);
+    	t.setPreferredSize(new Dimension(250, 250));
+    	t.setLineWrap(true);
+    	t.setWrapStyleWord(true);
+    	t.setOpaque(false);
+    }
+	
+	public void updateBackground() {
+		x += vx;
+		y += vy;
 	}
 	
 	/* constructor for MainPain class */
@@ -84,25 +106,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//create all instnace variable objects in the constructorr
 		p = new Protagonist("bronc.png", f.getWidth()/2, f.getHeight()/2, 50, 50);
 		i = new IslandBackground("testIsland.png", f.getWidth()*2, f.getHeight()*2);
+		e1 = new Extra("stego.png", 850, 850, 50, 50);
 		
 		Music bg = new Music("Gravity.wav", true);
 		bg.loop();
-	}
-	
-	public void displayText(String c) {
-    	t = new JTextArea();
-    	f.add(t);
-    	t.setFont(verdana);
-    	t.setText(c);
-    	t.setPreferredSize(new Dimension(250, 250));
-    	t.setLineWrap(true);
-    	t.setWrapStyleWord(true);
-    	t.setOpaque(false);
-    }
-	
-	public void updateBackground() {
-		x += vx;
-		y += vy;
 	}
 
 	/* this method is invoked/called by the titmer */

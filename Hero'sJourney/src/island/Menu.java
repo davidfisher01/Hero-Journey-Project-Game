@@ -23,8 +23,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 	JFrame f = new JFrame("Dino Crossing");
 
 	Rectangle start;
-	IslandBackground d;
-	IslandBackground d2;
+	Extra d;
+	Extra d2;
 	
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	
@@ -83,12 +83,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		isStart = false;
 		
 		start = new Rectangle(midX, midY, 200, 50);
-		d = new IslandBackground("bronc.png", 300, 100);
-		d2 = new IslandBackground("bronc.png", midX, midY);
-		d2.setX(midX);
-		d2.setY(midY);
-		d.setX(50);
-		d.setY(70);
+		d = new Extra("bronc.png", 50, 70, 300, 100);
+		d2 = new Extra("bronc.png", midX, midY, midX, midY);
 		
 		f.setVisible(true);
 	}
