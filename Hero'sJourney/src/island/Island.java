@@ -1,6 +1,7 @@
 package island;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +12,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+import javax.swing.JTextArea;
 import javax.swing.Timer;
+import java.awt.Font;
 import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -21,11 +23,15 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	//handles drawing animation
 	Timer animationTimer;
+	//Create a JFrame Object with a title bar text
+	JFrame f = new JFrame("Dino Crossing");
+	JTextArea t;
 	
 	IslandBackground i;
 	Protagonist p;
 	
 	Music bg;
+	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	
 	public int x, y;
 	public int vx, vy;
@@ -42,13 +48,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		i.setVx(vx);
 		i.setVy(vy);
+		
+		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
 	}
 	
 	/* constructor for MainPain class */
 	public Island() {
-		
-		//Create a JFrame Object with a title bar text
-		JFrame f = new JFrame("Dino Crossing");
 		
 		//Set the size of the window
 		f.setSize(800,600); //width and height
@@ -80,9 +85,20 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p = new Protagonist("bronc.png", f.getWidth()/2, f.getHeight()/2, 50, 50);
 		i = new IslandBackground("testIsland.png", f.getWidth()*2, f.getHeight()*2);
 		
-		Music bg = new Music("22.wav", true);
+		Music bg = new Music("Gravity.wav", true);
 		bg.loop();
 	}
+	
+	public void displayText(String c) {
+    	t = new JTextArea();
+    	f.add(t);
+    	t.setFont(verdana);
+    	t.setText(c);
+    	t.setPreferredSize(new Dimension(250, 250));
+    	t.setLineWrap(true);
+    	t.setWrapStyleWord(true);
+    	t.setOpaque(false);
+    }
 	
 	public void updateBackground() {
 		x += vx;

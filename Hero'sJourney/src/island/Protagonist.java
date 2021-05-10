@@ -20,7 +20,6 @@ public class Protagonist extends Sprite{
 		this.x = x;
 		this.y = y;
 		
-		System.out.println(x);
-		System.out.println(y);
+		System.out.println("Protagonist x/y: " + x + ", " + y);
 	}
 }
