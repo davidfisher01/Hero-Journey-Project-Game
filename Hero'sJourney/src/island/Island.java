@@ -79,7 +79,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		//Set the size of the window
 		f.setSize(800,600); //width and height
-		
 
 		f.addKeyListener(this);
 		

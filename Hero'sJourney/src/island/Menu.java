@@ -26,6 +26,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 	Extra d;
 	Extra d2;
 	
+	Music bg;
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	
 	public int midX, midY;
@@ -86,6 +87,9 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		d = new Extra("bronc.png", 50, 70, 300, 100);
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
 		
+		bg = new Music("Shake It Off.wav", true);
+		bg.loop();
+		
 		f.setVisible(true);
 	}
 	
@@ -120,6 +124,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		if (mouse.intersects(start)) {
 			f.setVisible(false);
 			isStart = true;
+			bg.stop();
 		}
 	}
 
