@@ -9,6 +9,8 @@ public class Extra extends Sprite {
 		vy = 0;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
 	public void update() {

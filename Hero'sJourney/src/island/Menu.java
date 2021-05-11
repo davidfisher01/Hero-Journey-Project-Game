@@ -13,8 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.sun.org.apache.bcel.internal.generic.D2F;
-
 public class Menu extends JPanel implements ActionListener, MouseListener {
 	
 	//handles drawing animation
@@ -37,20 +35,22 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
 		
+		updateVar();
+		
 		//call paint methods of objects or through g.drawRect etc
 		g.setFont(verdana);
 		g.setColor(Color.orange);
-		g.fillRect(0, 0, width, height);
-		d2.paint(g);
-		g.setColor(Color.black);
-		g.drawLine(midX, 0, midX, height);
-		g.drawLine(0, midY, width, midY);
-		g.drawRect(start.x, start.y - start.height, start.width, start.height);
-		g.drawString("Start :)", midX, midY);
-		g.drawString("Dino Crossing", 205, 500);
-		d.paint(g);
+		g.fillRect(0, 0, width, height);		//fills background orange
+		d2.paint(g);							//paint dinosaur 4th quadrant
+		g.setColor(Color.black);				//set color to black
+		g.drawLine(midX, 0, midX, height);		//draw line down middle
+		g.drawLine(0, midY, width, midY);		//draw line across middle
+		g.drawRect(start.x, start.y - start.height, start.width, start.height);		//draw rectangle to click
+		g.drawString("Start :)", midX, midY);	//draw string to click on
+		g.drawString("Dino Crossing", 205, 500);	//title of game
+		d.paint(g);								//paint dinosaur 2nd quadrant
 		
-		update();
+		System.out.println("running");
 	}
 	
 	/* constructor for MainPain class */
@@ -93,7 +93,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		f.setVisible(true);
 	}
 	
-	public void update() {
+	public void updateVar() {
 		midX = f.getWidth()/2;
 		midY = f.getHeight()/2;
 		width = f.getWidth();

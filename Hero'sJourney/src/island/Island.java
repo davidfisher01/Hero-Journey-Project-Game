@@ -15,9 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 import java.awt.Font;
-import java.io.File;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class Island extends JPanel implements ActionListener, KeyListener, MouseListener {
 	
@@ -36,12 +33,15 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	public int x, y;
 	public int vx, vy;
+	public int midX, midY;
+	public int width, height;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
 		
 		updateBackground();
+		updateVar();
 		
 		//call paint methods of objects or through g.drawRect etc
 		i.paint(g);
@@ -55,23 +55,46 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		e1.setVx(vx);
 		e1.setVy(vy);
 		
+		//collision
+		p.isColliding(e1);
+		updateCollision();
+		
+		//g.setColor(Color.white);
+		//g.fillRect(0, 0, f.getWidth(), f.getHeight()/4);
+		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
+		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
 	}
 	
 	public void displayText(String c) {
-    	t = new JTextArea();
+		t = new JTextArea();
     	f.add(t);
-    	t.setFont(verdana);
     	t.setText(c);
-    	t.setPreferredSize(new Dimension(250, 250));
+    	t.setFont(new Font("Serif", Font.PLAIN, 20));
+    	t.setPreferredSize(new Dimension(250,250));
     	t.setLineWrap(true);
     	t.setWrapStyleWord(true);
-    	t.setOpaque(false);
+    	//t.setBackground(Color.white);
+    	t.setCaretColor(t.getBackground());
+    	t.getCaret().setBlinkRate(0);
+    	t.setEditable(false);
+    	t.setVisible(true);
+    	//f.pack();
+    	//setSize(300, 300);
     }
 	
 	public void updateBackground() {
 		x += vx;
 		y += vy;
+	}
+	
+	public void updateCollision() {
+		if (p.isColN() || p.isColS()) {
+			vy = 0;
+		}
+		if (p.isColE() || p.isColW()) {
+			vx = 0;
+		}
 	}
 	
 	/* constructor for MainPain class */
@@ -103,12 +126,25 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		f.setVisible(true);
 			
 		//create all instnace variable objects in the constructorr
-		p = new Protagonist("bronc.png", f.getWidth()/2, f.getHeight()/2, 50, 50);
-		i = new IslandBackground("testIsland.png", f.getWidth()*2, f.getHeight()*2);
+		midX = f.getWidth()/2;
+		midY = f.getHeight()/2;
+		width = f.getWidth();
+		height = f.getHeight();
+		
+		p = new Protagonist("bronc.png", midX, midY, 50, 50);
+		i = new IslandBackground("testIsland.png", width*2, height*2);
 		e1 = new Extra("stego.png", 850, 850, 50, 50);
 		
 		Music bg = new Music("Gravity.wav", true);
 		bg.loop();
+		
+	}
+	
+	public void updateVar() {
+		midX = f.getWidth()/2;
+		midY = f.getHeight()/2;
+		width = f.getWidth();
+		height = f.getHeight();
 	}
 
 	/* this method is invoked/called by the titmer */
@@ -127,20 +163,33 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			//System.out.println("player: moved south");
-			vy = -5;
+			if (!p.isColS()) {
+				vy = -5;
+			}
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
 			//System.out.println("player: moved north");
-			vy = 5;
+			if (!p.isColN()) {
+				vy = 5;
+			}
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
 			//System.out.println("player: moved east");
-			vx = -5;
+			if (!p.isColE()) {
+				vx = -5;
+			}
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
 			//System.out.println("player: moved west");
-			vx = 5;
+			if (!p.isColW()) {
+				vx = 5;
+			}
 		}
+		
+		p.setColN(false);
+		p.setColS(false);
+		p.setColE(false);
+		p.setColW(false);
 	}
 
 	@Override
@@ -162,6 +211,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			//System.out.println("player: stopped west");
 			vx = 0;
 		}
+		
+		p.setColN(false);
+		p.setColS(false);
+		p.setColE(false);
+		p.setColW(false);
 	}
 
 	@Override
