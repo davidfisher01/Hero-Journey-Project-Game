@@ -46,6 +46,9 @@ public class Music  implements Runnable  {
 	public void stop() {
 		audioClip.stop();
 	}
+	public boolean isStopped() {
+		return !audioClip.isActive();
+	}
 	public void start3() {
 	     t = new Thread (this, fn);
 	     start2();

@@ -29,20 +29,35 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Protagonist p;
 	Extra e1;
 	
-	Music bg;
+	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	
 	public int x, y;
 	public int vx, vy;
 	public int midX, midY;
 	public int width, height;
+	public int songNum;
+	public boolean canShuffle = false;
+	public boolean isLoading = true;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
 		
+		//update methods
 		updateBackground();
 		updateVar();
+		
+		//loading screen
+		if (isLoading) {
+			g.setFont(verdana);
+			g.setColor(Color.orange);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.black);
+			g.drawString("Loading, please wait", 0, 100); 
+			
+			return;
+		}
 		
 		//call paint methods of objects or through g.drawRect etc
 		i.paint(g);
@@ -51,6 +66,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//paint player last
 		p.paint(g);
 		
+		//move all objects but the player
 		i.setVx(vx);
 		i.setVy(vy);
 		e1.setVx(vx);
@@ -60,15 +76,18 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collision(e1);
 		updateCollision();
 		
+		//shuffle
+		shuffleMusic();
+		
 		g.setColor(Color.red);
-		g.drawLine(midX, 0, midX, height);		//draw line down middle
-		g.drawLine(0, midY, width, midY);		//draw line across middle
-		g.drawLine(midX + 50, 0, midX+50, height);		//draw line down middle
-		g.drawLine(0, midY+50, width, midY+50);		//draw line across middle
-		g.drawLine(midX-50, 0, midX-50, height);		//draw line down middle
-		g.drawLine(0, midY-50, width, midY-50);		//draw line across middle
-		g.drawLine(midX+100, 0, midX+100, height);		//draw line down middle
-		g.drawLine(0, midY+100, width, midY+100);		//draw line across middle
+		g.drawLine(midX - 25, 0, midX - 25, height);		//draw line down middle
+		g.drawLine(0, midY - 25, width, midY - 25);		//draw line across middle
+		g.drawLine(midX + 25, 0, midX+25, height);		//draw line down middle
+		g.drawLine(0, midY+25, width, midY+25);		//draw line across middle
+		g.drawLine(midX-75, 0, midX-75, height);		//draw line down middle
+		g.drawLine(0, midY-75, width, midY-75);		//draw line across middle
+		g.drawLine(midX+75, 0, midX+75, height);		//draw line down middle
+		g.drawLine(0, midY+75, width, midY+75);		//draw line across middle
 		
 		g.setColor(Color.orange);
 		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
@@ -77,6 +96,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
 		
 		//g.setColor(Color.white);
+		//g.setFont(verdana);
 		//g.fillRect(0, 0, f.getWidth(), f.getHeight()/4);
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
@@ -99,6 +119,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
     	//f.pack();
     	//setSize(300, 300);
     }
+	
+	public void shuffleMusic() {
+		if (canShuffle) {
+			if (bg.get(songNum).isStopped()) {
+				songNum = (int) (Math.random()*bg.size());
+				System.out.println("NEXT SONG: " + songNum);
+				bg.get(songNum).play();
+			}
+		}
+	}
 	
 	public void updateBackground() {
 		x += vx;
@@ -154,13 +184,27 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		p = new Protagonist("bronc.png", midX, midY, 50, 50);
 		i = new IslandBackground("testIsland.png", width*2, height*2);
 		e1 = new Extra("stego.png", 850, 850, 50, 50);
+		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
 		
-		Music bg = new Music("Gravity.wav", true);
-		bg.loop();
+		bg.add(new Music("Gravity.wav", true));
+		bg.add(new Music("Blessed.wav", true));
+		bg.add(new Music("22.wav", true));
+		bg.add(new Music("Californiacation.wav", true));
+		bg.add(new Music("Even Flow.wav", true));
+		bg.add(new Music("Everlong.wav", true));
+		bg.add(new Music("Room in Here.wav", true));
+		bg.add(new Music("Shake It Off.wav", true));
+		bg.add(new Music("Skeletons.wav", true));
+		bg.add(new Music("Triumph.wav", true));
 		
+		songNum = (int) (Math.random()*bg.size());
+		bg.get(songNum).play();
+		System.out.println("ORIGINAL SONG: " + songNum);
+		
+		canShuffle = true;
+		isLoading = false;
 	}
 	
 	public void updateVar() {
