@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,8 +57,24 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		e1.setVy(vy);
 		
 		//collision
-		p.isColliding(e1);
+		p.collision(e1);
 		updateCollision();
+		
+		g.setColor(Color.red);
+		g.drawLine(midX, 0, midX, height);		//draw line down middle
+		g.drawLine(0, midY, width, midY);		//draw line across middle
+		g.drawLine(midX + 50, 0, midX+50, height);		//draw line down middle
+		g.drawLine(0, midY+50, width, midY+50);		//draw line across middle
+		g.drawLine(midX-50, 0, midX-50, height);		//draw line down middle
+		g.drawLine(0, midY-50, width, midY-50);		//draw line across middle
+		g.drawLine(midX+100, 0, midX+100, height);		//draw line down middle
+		g.drawLine(0, midY+100, width, midY+100);		//draw line across middle
+		
+		g.setColor(Color.orange);
+		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
+		g.drawLine(0, e1.getY(), width, e1.getY());		//draw line across middle
+		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
+		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
 		
 		//g.setColor(Color.white);
 		//g.fillRect(0, 0, f.getWidth(), f.getHeight()/4);
@@ -89,10 +106,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	}
 	
 	public void updateCollision() {
-		if (p.isColN() || p.isColS()) {
+		if (p.isColN() && p.isColG()) {
 			vy = 0;
 		}
-		if (p.isColE() || p.isColW()) {
+		if (p.isColS() && p.isColG()) {
+			vy = 0;
+		}
+		if (p.isColE() && p.isColG()) {
+			vx = 0;
+		}
+		if (p.isColW() && p.isColG()) {
 			vx = 0;
 		}
 	}
@@ -185,11 +208,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				vx = 5;
 			}
 		}
-		
-		p.setColN(false);
-		p.setColS(false);
-		p.setColE(false);
-		p.setColW(false);
 	}
 
 	@Override
@@ -211,11 +229,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			//System.out.println("player: stopped west");
 			vx = 0;
 		}
-		
-		p.setColN(false);
-		p.setColS(false);
-		p.setColE(false);
-		p.setColW(false);
 	}
 
 	@Override
