@@ -66,7 +66,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.fillRect(0, 0, width, height);
 			g.setColor(Color.black);
 			g.drawString("Paused, press esc to continue", 0, 100);
-			g.drawString("Now Playing: " + bg.get(songNum).getSongName(), 0, 300);
+			g.drawString("Now Playing:", 0, 300);
+			g.drawString(bg.get(songNum).getSongName(), 0, 350);
 			
 			return;
 		}
