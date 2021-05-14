@@ -39,6 +39,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int songNum;
 	public boolean canShuffle = false;
 	public boolean isLoading = true;
+	public boolean isPaused = false;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -55,6 +56,17 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.fillRect(0, 0, width, height);
 			g.setColor(Color.black);
 			g.drawString("Loading, please wait", 0, 100); 
+			
+			return;
+		}
+		
+		if (isPaused) {
+			g.setFont(verdana);
+			g.setColor(Color.orange);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.black);
+			g.drawString("Paused, press esc to continue", 0, 100);
+			g.drawString("Now Playing: " + bg.get(songNum).getSongName(), 0, 300);
 			
 			return;
 		}
@@ -188,16 +200,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		e1 = new Extra("stego.png", 850, 850, 50, 50);
 		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
 		
-		bg.add(new Music("Gravity.wav", true));
-		bg.add(new Music("Blessed.wav", true));
-		bg.add(new Music("22.wav", true));
-		bg.add(new Music("Californiacation.wav", true));
-		bg.add(new Music("Even Flow.wav", true));
-		bg.add(new Music("Everlong.wav", true));
-		bg.add(new Music("Room in Here.wav", true));
-		bg.add(new Music("Shake It Off.wav", true));
-		bg.add(new Music("Skeletons.wav", true));
-		bg.add(new Music("Triumph.wav", true));
+		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
+		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
+		bg.add(new Music("22.wav", true, "22 by Taylor Swift"));
+		bg.add(new Music("Californiacation.wav", true, "Californication by Red Hot Chili Peppers"));
+		bg.add(new Music("Even Flow.wav", true, "Even Flow by Pearl Jam"));
+		bg.add(new Music("Everlong.wav", true, "Everlong by Foo Fighters"));
+		bg.add(new Music("Room in Here.wav", true, "Room in Here by Anderson .Paak"));
+		bg.add(new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift"));
+		bg.add(new Music("Skeletons.wav", true, "Skeletons by Travis Scott"));
+		bg.add(new Music("Triumph.wav", true, "Triumph by J Hus"));
 		
 		songNum = (int) (Math.random()*bg.size());
 		bg.get(songNum).play();
@@ -250,6 +262,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			//System.out.println("player: moved west");
 			if (!p.isColW()) {
 				vx = 5;
+			}
+		}
+		if (e.getKeyCode() == 27 ) {
+			if (isPaused) {
+				isPaused = false;
+			} else {
+				isPaused = true;
 			}
 		}
 	}

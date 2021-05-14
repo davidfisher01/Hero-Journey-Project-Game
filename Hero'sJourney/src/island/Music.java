@@ -17,7 +17,10 @@ public class Music  implements Runnable  {
     AudioInputStream audioStream;
     Clip audioClip;
     String fn;
-	public Music(String fileName, boolean loops) {
+    String songName;
+    
+	public Music(String fileName, boolean loops, String songName) {
+		this.songName = songName;
 		fn = fileName;
 		audioFile = new File(fileName);
 		try {
@@ -81,12 +84,12 @@ public class Music  implements Runnable  {
 		audioClip.start();
 	}
 	
+	public String getSongName() {
+		return songName;
+	}
+	
 	@Override
 	public void run() {
 		 audioClip.start();
 	}
-	
-	
-	
-
 }

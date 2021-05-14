@@ -87,7 +87,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener {
 		d = new Extra("bronc.png", 50, 70, 300, 100);
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
 		
-		bg = new Music("Shake It Off.wav", true);
+		bg = new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift");
 		bg.loop();
 		
 		f.setVisible(true);
