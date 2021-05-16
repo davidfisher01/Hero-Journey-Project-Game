@@ -28,6 +28,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Extra e1;
+	Extra n;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -38,8 +39,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int width, height;
 	public int songNum;
 	public boolean canShuffle = false;
-	public boolean isLoading = true;
-	public boolean isPaused = false;
+	public boolean isLoading = true, isPaused = false;
+	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -76,6 +77,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//call paint methods of objects
 		i.paint(g);
 		e1.paint(g);
+		n.paint(g);
 		
 		//paint player last
 		p.paint(g);
@@ -85,9 +87,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		i.setVy(vy);
 		e1.setVx(vx);
 		e1.setVy(vy);
+		n.setVx(vx);
+		n.setVy(vy);
 		
 		//collision
 		p.collision(e1);
+		p.collision(n);
 		updateCollision();
 		
 		//shuffle
@@ -98,16 +103,21 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawLine(0, midY - 25, width, midY - 25);		//top
 		g.drawLine(midX + 25, 0, midX+25, height);		//right
 		g.drawLine(0, midY+25, width, midY+25);			//bot
-		g.drawLine(midX-50, 0, midX-50, height);		//draw line down middle
-		g.drawLine(0, midY-50, width, midY-50);		//draw line across middle
-		g.drawLine(midX+50, 0, midX+50, height);		//draw line down middle
-		g.drawLine(0, midY+50, width, midY+50);		//draw line across middle
+		g.drawLine(midX-37, 0, midX-37, height);		//draw line down middle
+		g.drawLine(0, midY-37, width, midY-37);			//draw line across middle
+		g.drawLine(midX+37, 0, midX+37, height);		//draw line down middle
+		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle
 		
 		g.setColor(Color.orange);
 		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
 		g.drawLine(0, e1.getY(), width, e1.getY());		//draw line across middle
 		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
 		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
+		
+		g.drawLine(n.getX(), 0, n.getX(), height);		//draw line down middle
+		g.drawLine(0, n.getY(), width, n.getY());		//draw line across middle
+		g.drawLine(n.getX() + 150, 0, n.getX() + 150, height);		//draw line down middle
+		g.drawLine(0, n.getY() + 150, width, n.getY() + 150);		//draw line across middle
 		
 		//g.setColor(Color.white);
 		//g.setFont(verdana);
@@ -156,16 +166,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	}
 	
 	public void updateCollision() {
-		if (p.isColN() && p.isColG()) {
+		if (p.isColN() && isMoveN) {
 			vy = 0;
 		}
-		if (p.isColS() && p.isColG()) {
+		if (p.isColS() && isMoveS) {
 			vy = 0;
 		}
-		if (p.isColE() && p.isColG()) {
+		if (p.isColE() && isMoveE) {
 			vx = 0;
 		}
-		if (p.isColW() && p.isColG()) {
+		if (p.isColW() && isMoveW) {
 			vx = 0;
 		}
 	}
@@ -206,6 +216,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		i = new IslandBackground("testIsland.png", width*2, height*2);
 		e1 = new Extra("stego.png", 850, 850, 50, 50);
+		n = new Ninja("ninja.png", 1000, 600, 150, 150);
 		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
@@ -219,10 +230,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		bg.add(new Music("Skeletons.wav", true, "Skeletons by Travis Scott"));
 		bg.add(new Music("Triumph.wav", true, "Triumph by J Hus"));
 		
+		//start music
 		songNum = (int) (Math.random()*bg.size());
 		bg.get(songNum).play();
 		System.out.println("ORIGINAL SONG: " + songNum);
 		
+		//update variables to start game
 		canShuffle = true;
 		isLoading = false;
 	}
@@ -252,24 +265,28 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			//System.out.println("player: moved south");
 			if (!p.isColS()) {
 				vy = -5;
+				isMoveS = true;
 			}
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
 			//System.out.println("player: moved north");
 			if (!p.isColN()) {
 				vy = 5;
+				isMoveN = true;
 			}
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
 			//System.out.println("player: moved east");
 			if (!p.isColE()) {
 				vx = -5;
+				isMoveE = true;
 			}
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
 			//System.out.println("player: moved west");
 			if (!p.isColW()) {
 				vx = 5;
+				isMoveW = true;
 			}
 		}
 		if (e.getKeyCode() == 27 ) {
@@ -287,18 +304,22 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			//System.out.println("player: stopped south");
 			vy = 0;
+			isMoveS = false;
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
 			//System.out.println("player: stopped north");
 			vy = 0;
+			isMoveN = false;
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
 			//System.out.println("player: stopped east");
 			vx = 0;
+			isMoveE = false;
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
 			//System.out.println("player: stopped west");
 			vx = 0;
+			isMoveW = false;
 		}
 	}
 

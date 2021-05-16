@@ -1,15 +1,6 @@
 package island;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.net.URL;
 
 public class Protagonist extends Sprite{
 	
@@ -33,32 +24,32 @@ public class Protagonist extends Sprite{
 	
 	public void collision (Extra e) {
 		if (northRect().intersects(e.getRect())) {
-			System.out.println("n");
+			System.out.println("Player: intersected north");
 			isColN = true;
 		} else {
 			isColN = false;
 		}
 		if (southRect().intersects(e.getRect())) {
-			System.out.println("s");
+			System.out.println("Player: intersected south");
 			isColS = true;
 		} else {
 			isColS = false;
 		}
 		if (eastRect().intersects(e.getRect())) {
-			System.out.println("e");
+			System.out.println("Player: intersected east");
 			isColE = true;
 		} else {
 			isColE = false;
 		}
 		if (westRect().intersects(e.getRect())) {
-			System.out.println("w");
+			System.out.println("Player: intersected west");
 			isColW = true;
 		}
 		else {
 			isColW = false;
 		}
 		if (getRect().intersects(e.getRect())) {
-			System.out.println("gen");
+			System.out.println("Player: intersected rect");
 			isColG = true;
 		} else {
 			isColG = false;
@@ -106,22 +97,22 @@ public class Protagonist extends Sprite{
 	}
 
 	public Rectangle northRect() {
-		Rectangle rect = new Rectangle(x,y - height/2,width,height/2);
+		Rectangle rect = new Rectangle(x,y - height/4,width,height/4);
 		return rect;
 	}
 	
 	public Rectangle southRect() {
-		Rectangle rect = new Rectangle(x,y + height,width,height/2);
+		Rectangle rect = new Rectangle(x,y + height,width,height/4);
 		return rect;
 	}
 	
 	public Rectangle eastRect() {
-		Rectangle rect = new Rectangle(x + width,y,width/2,height);
+		Rectangle rect = new Rectangle(x + width,y,width/4,height);
 		return rect;
 	}
 	
 	public Rectangle westRect() {
-		Rectangle rect = new Rectangle(x - width/2,y,width/2,height);
+		Rectangle rect = new Rectangle(x - width/4,y,width/4,height);
 		return rect;
 	}
 }
