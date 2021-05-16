@@ -106,22 +106,22 @@ public class Protagonist extends Sprite{
 	}
 
 	public Rectangle northRect() {
-		Rectangle rect = new Rectangle(x,y - height,width,height);
+		Rectangle rect = new Rectangle(x,y - height/2,width,height/2);
 		return rect;
 	}
 	
 	public Rectangle southRect() {
-		Rectangle rect = new Rectangle(x,y + height,width,height);
+		Rectangle rect = new Rectangle(x,y + height,width,height/2);
 		return rect;
 	}
 	
 	public Rectangle eastRect() {
-		Rectangle rect = new Rectangle(x + width,y,width,height);
+		Rectangle rect = new Rectangle(x + width,y,width/2,height);
 		return rect;
 	}
 	
 	public Rectangle westRect() {
-		Rectangle rect = new Rectangle(x - width,y,width,height);
+		Rectangle rect = new Rectangle(x - width/2,y,width/2,height);
 		return rect;
 	}
 }

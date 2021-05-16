@@ -60,6 +60,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
+		//paused screen
 		if (isPaused) {
 			g.setFont(verdana);
 			g.setColor(Color.orange);
@@ -72,7 +73,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
-		//call paint methods of objects or through g.drawRect etc
+		//call paint methods of objects
 		i.paint(g);
 		e1.paint(g);
 		
@@ -93,14 +94,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		shuffleMusic();
 		
 		g.setColor(Color.red);
-		g.drawLine(midX - 25, 0, midX - 25, height);		//draw line down middle
-		g.drawLine(0, midY - 25, width, midY - 25);		//draw line across middle
-		g.drawLine(midX + 25, 0, midX+25, height);		//draw line down middle
-		g.drawLine(0, midY+25, width, midY+25);		//draw line across middle
-		g.drawLine(midX-75, 0, midX-75, height);		//draw line down middle
-		g.drawLine(0, midY-75, width, midY-75);		//draw line across middle
-		g.drawLine(midX+75, 0, midX+75, height);		//draw line down middle
-		g.drawLine(0, midY+75, width, midY+75);		//draw line across middle
+		g.drawLine(midX - 25, 0, midX - 25, height);	//left
+		g.drawLine(0, midY - 25, width, midY - 25);		//top
+		g.drawLine(midX + 25, 0, midX+25, height);		//right
+		g.drawLine(0, midY+25, width, midY+25);			//bot
+		g.drawLine(midX-50, 0, midX-50, height);		//draw line down middle
+		g.drawLine(0, midY-50, width, midY-50);		//draw line across middle
+		g.drawLine(midX+50, 0, midX+50, height);		//draw line down middle
+		g.drawLine(0, midY+50, width, midY+50);		//draw line across middle
 		
 		g.setColor(Color.orange);
 		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
@@ -136,7 +137,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void shuffleMusic() {
 		if (canShuffle) {
 			if (bg.get(songNum).isStopped()) {
-				songNum = (int) (Math.random()*bg.size());
+				int temp;
+				
+				do {
+					temp = (int) (Math.random()*bg.size());
+				} while (songNum == temp);
+				
+				songNum = temp;
 				System.out.println("NEXT SONG: " + songNum);
 				bg.get(songNum).play();
 			}

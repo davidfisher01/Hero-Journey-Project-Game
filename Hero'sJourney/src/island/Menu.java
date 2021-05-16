@@ -26,6 +26,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 	Rectangle credits;
 	Extra d;
 	Extra d2;
+	Extra d3;
 	
 	Music bg;
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -33,7 +34,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 	
 	public int midX, midY;
 	public int width, height;
-	public boolean isStart, isCredits, isCreditsMusic;
+	public boolean isStart, isCredits, isCreditsMusic, isLoading = true;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -45,6 +46,15 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		g.setFont(verdana);
 		g.setColor(Color.orange);
 		g.fillRect(0, 0, width, height);		//fills background orange
+		
+		//paint loading
+		if (isLoading) {
+			g.setColor(Color.black);
+			g.drawString("the Fantastic Four Friends", midX/4, midY/4);
+			d3.paint(g);
+			
+			return;
+		}
 		
 		//paint credits
 		if (isCredits) {
@@ -74,11 +84,12 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				g.drawString("Room in Here by Anderson .Paak", 200, 325);
 				g.drawString("Skeletons by Travis Scott", 200, 350);
 				g.drawString("Triumph by J Hus", 200, 375);
-				g.drawString("i love pokimane", 200, 400);
+				g.drawString("eric loves pokimane", 200, 400);
 				
 				return;
 			}
 			
+			//paints normal credits
 			g.setColor(Color.black);
 			g.drawString("Credits", 0, 100);
 			g.drawString("Created by", 0, 200);
@@ -122,6 +133,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		f.addMouseListener(this);
 		f.addKeyListener(this);
 		
+		f.setVisible(true);
+		
 		//setup animation timer
 		animationTimer = new Timer(16, this);
 		
@@ -140,11 +153,21 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		credits = new Rectangle(0, 300, 200, 50);
 		d = new Extra("bronc.png", 150, 70, 300, 100);
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
+		d3 = new Extra("bronc.png", midX - 150, midY - 150, 300, 300);
 		
 		bg = new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift");
 		bg.loop();
 		
-		f.setVisible(true);
+		try
+		{
+		    Thread.sleep(3000);
+		}
+		catch(InterruptedException ex)
+		{
+		    Thread.currentThread().interrupt();
+		}
+		
+		isLoading = false;
 	}
 	
 	public void updateVar() {
@@ -175,7 +198,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		// TODO Auto-generated method stub
 		Rectangle mouse = new Rectangle(m.getX(), m.getY(), 25, 25);
 		
-		if (mouse.intersects(start)) {
+		if (mouse.intersects(start) && !isLoading && !isCredits) {
 			f.setVisible(false);
 			isStart = true;
 			bg.stop();
