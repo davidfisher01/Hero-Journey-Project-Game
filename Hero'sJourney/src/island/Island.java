@@ -9,15 +9,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 import java.awt.Font;
-import java.io.File;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class Island extends JPanel implements ActionListener, KeyListener, MouseListener {
 	
@@ -30,48 +28,156 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Extra e1;
+	Extra n;
 	
-	Music bg;
+	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	
 	public int x, y;
 	public int vx, vy;
+	public int midX, midY;
+	public int width, height;
+	public int songNum;
+	public boolean canShuffle = false;
+	public boolean isLoading = true, isPaused = false;
+	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
 		
+		//update methods
 		updateBackground();
+		updateVar();
 		
-		//call paint methods of objects or through g.drawRect etc
+		//loading screen
+		if (isLoading) {
+			g.setFont(verdana);
+			g.setColor(Color.orange);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.black);
+			g.drawString("Loading, please wait", 0, 100); 
+			
+			return;
+		}
+		
+		//paused screen
+		if (isPaused) {
+			g.setFont(verdana);
+			g.setColor(Color.orange);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.black);
+			g.drawString("Paused, press esc to continue", 0, 100);
+			g.drawString("Now Playing:", 0, 300);
+			g.drawString(bg.get(songNum).getSongName(), 0, 350);
+			
+			return;
+		}
+		
+		//call paint methods of objects
 		i.paint(g);
 		e1.paint(g);
+		n.paint(g);
 		
 		//paint player last
 		p.paint(g);
 		
+		//move all objects but the player
 		i.setVx(vx);
 		i.setVy(vy);
 		e1.setVx(vx);
 		e1.setVy(vy);
+		n.setVx(vx);
+		n.setVy(vy);
+		
+		//collision
+		p.collision(e1);
+		p.collision(n);
+		updateCollision();
+		
+		//shuffle
+		shuffleMusic();
+		
+		g.setColor(Color.red);
+		g.drawLine(midX - 25, 0, midX - 25, height);	//left
+		g.drawLine(0, midY - 25, width, midY - 25);		//top
+		g.drawLine(midX + 25, 0, midX+25, height);		//right
+		g.drawLine(0, midY+25, width, midY+25);			//bot
+		g.drawLine(midX-37, 0, midX-37, height);		//draw line down middle
+		g.drawLine(0, midY-37, width, midY-37);			//draw line across middle
+		g.drawLine(midX+37, 0, midX+37, height);		//draw line down middle
+		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle
+		
+		g.setColor(Color.orange);
+		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
+		g.drawLine(0, e1.getY(), width, e1.getY());		//draw line across middle
+		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
+		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
+		
+		g.drawLine(n.getX(), 0, n.getX(), height);		//draw line down middle
+		g.drawLine(0, n.getY(), width, n.getY());		//draw line across middle
+		g.drawLine(n.getX() + 150, 0, n.getX() + 150, height);		//draw line down middle
+		g.drawLine(0, n.getY() + 150, width, n.getY() + 150);		//draw line across middle
+		
+		//g.setColor(Color.white);
+		//g.setFont(verdana);
+		//g.fillRect(0, 0, f.getWidth(), f.getHeight()/4);
+		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
 	}
 	
 	public void displayText(String c) {
-    	t = new JTextArea();
+		t = new JTextArea();
     	f.add(t);
-    	t.setFont(verdana);
     	t.setText(c);
-    	t.setPreferredSize(new Dimension(250, 250));
+    	t.setFont(new Font("Serif", Font.PLAIN, 20));
+    	t.setPreferredSize(new Dimension(250,250));
     	t.setLineWrap(true);
     	t.setWrapStyleWord(true);
-    	t.setOpaque(false);
+    	//t.setBackground(Color.white);
+    	t.setCaretColor(t.getBackground());
+    	t.getCaret().setBlinkRate(0);
+    	t.setEditable(false);
+    	t.setVisible(true);
+    	//f.pack();
+    	//setSize(300, 300);
     }
+	
+	public void shuffleMusic() {
+		if (canShuffle) {
+			if (bg.get(songNum).isStopped()) {
+				int temp;
+				
+				do {
+					temp = (int) (Math.random()*bg.size());
+				} while (songNum == temp);
+				
+				songNum = temp;
+				System.out.println("NEXT SONG: " + songNum);
+				bg.get(songNum).play();
+			}
+		}
+	}
 	
 	public void updateBackground() {
 		x += vx;
 		y += vy;
+	}
+	
+	public void updateCollision() {
+		if (p.isColN() && isMoveN) {
+			vy = 0;
+		}
+		if (p.isColS() && isMoveS) {
+			vy = 0;
+		}
+		if (p.isColE() && isMoveE) {
+			vx = 0;
+		}
+		if (p.isColW() && isMoveW) {
+			vx = 0;
+		}
 	}
 	
 	/* constructor for MainPain class */
@@ -103,12 +209,42 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		f.setVisible(true);
 			
 		//create all instnace variable objects in the constructorr
-		p = new Protagonist("bronc.png", f.getWidth()/2, f.getHeight()/2, 50, 50);
-		i = new IslandBackground("testIsland.png", f.getWidth()*2, f.getHeight()*2);
-		e1 = new Extra("stego.png", 850, 850, 50, 50);
+		midX = f.getWidth()/2;
+		midY = f.getHeight()/2;
+		width = f.getWidth();
+		height = f.getHeight();
 		
-		Music bg = new Music("Gravity.wav", true);
-		bg.loop();
+		i = new IslandBackground("testIsland.png", width*2, height*2);
+		e1 = new Extra("stego.png", 850, 850, 50, 50);
+		n = new Ninja("ninja.png", 1000, 600, 150, 150);
+		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
+		
+		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
+		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
+		bg.add(new Music("22.wav", true, "22 by Taylor Swift"));
+		bg.add(new Music("Californiacation.wav", true, "Californication by Red Hot Chili Peppers"));
+		bg.add(new Music("Even Flow.wav", true, "Even Flow by Pearl Jam"));
+		bg.add(new Music("Everlong.wav", true, "Everlong by Foo Fighters"));
+		bg.add(new Music("Room in Here.wav", true, "Room in Here by Anderson .Paak"));
+		bg.add(new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift"));
+		bg.add(new Music("Skeletons.wav", true, "Skeletons by Travis Scott"));
+		bg.add(new Music("Triumph.wav", true, "Triumph by J Hus"));
+		
+		//start music
+		songNum = (int) (Math.random()*bg.size());
+		bg.get(songNum).play();
+		System.out.println("ORIGINAL SONG: " + songNum);
+		
+		//update variables to start game
+		canShuffle = true;
+		isLoading = false;
+	}
+	
+	public void updateVar() {
+		midX = f.getWidth()/2;
+		midY = f.getHeight()/2;
+		width = f.getWidth();
+		height = f.getHeight();
 	}
 
 	/* this method is invoked/called by the titmer */
@@ -127,19 +263,38 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			//System.out.println("player: moved south");
-			vy = -5;
+			if (!p.isColS()) {
+				vy = -5;
+				isMoveS = true;
+			}
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
 			//System.out.println("player: moved north");
-			vy = 5;
+			if (!p.isColN()) {
+				vy = 5;
+				isMoveN = true;
+			}
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
 			//System.out.println("player: moved east");
-			vx = -5;
+			if (!p.isColE()) {
+				vx = -5;
+				isMoveE = true;
+			}
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
 			//System.out.println("player: moved west");
-			vx = 5;
+			if (!p.isColW()) {
+				vx = 5;
+				isMoveW = true;
+			}
+		}
+		if (e.getKeyCode() == 27 ) {
+			if (isPaused) {
+				isPaused = false;
+			} else {
+				isPaused = true;
+			}
 		}
 	}
 
@@ -149,18 +304,22 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			//System.out.println("player: stopped south");
 			vy = 0;
+			isMoveS = false;
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
 			//System.out.println("player: stopped north");
 			vy = 0;
+			isMoveN = false;
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
 			//System.out.println("player: stopped east");
 			vx = 0;
+			isMoveE = false;
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
 			//System.out.println("player: stopped west");
 			vx = 0;
+			isMoveW = false;
 		}
 	}
 

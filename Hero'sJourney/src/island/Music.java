@@ -1,14 +1,11 @@
 package island;
 
 import java.io.File;
-import java.io.IOException;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Music  implements Runnable  {
@@ -17,7 +14,10 @@ public class Music  implements Runnable  {
     AudioInputStream audioStream;
     Clip audioClip;
     String fn;
-	public Music(String fileName, boolean loops) {
+    String songName;
+    
+	public Music(String fileName, boolean loops, String songName) {
+		this.songName = songName;
 		fn = fileName;
 		audioFile = new File(fileName);
 		try {
@@ -45,6 +45,9 @@ public class Music  implements Runnable  {
 	}
 	public void stop() {
 		audioClip.stop();
+	}
+	public boolean isStopped() {
+		return !audioClip.isActive();
 	}
 	public void start3() {
 	     t = new Thread (this, fn);
@@ -78,12 +81,12 @@ public class Music  implements Runnable  {
 		audioClip.start();
 	}
 	
+	public String getSongName() {
+		return songName;
+	}
+	
 	@Override
 	public void run() {
 		 audioClip.start();
 	}
-	
-	
-	
-
 }

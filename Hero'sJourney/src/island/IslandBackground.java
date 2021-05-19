@@ -7,6 +7,8 @@ public class IslandBackground extends Sprite{
 		super(fileName, width, height);
 		vx = 0;
 		vy = 0;
+		this.width = width;
+		this.height = height;
 	}
 	
 	public void update() {
