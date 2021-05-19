@@ -74,6 +74,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				
 				//songs
 				g.setFont(verdanaSmall);
+				g.drawString("Theme Music: Stegosaurus by Howdytoons", 200, 100);
+				g.drawString("Boss Music: ", 200, 125);
 				g.drawString("22 by Taylor Swift", 200, 150);
 				g.drawString("Californication by Red Hot Chili Peppers", 200, 175);
 				g.drawString("Even Flow by Pearl Jam", 200, 200);
@@ -155,7 +157,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
 		d3 = new Extra("bronc.png", midX - 150, midY - 150, 300, 300);
 		
-		bg = new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift");
+		bg = new Music("Stegosaurus.wav", true, "Stegosaurus by Howdytoons");
 		bg.loop();
 		
 		try
