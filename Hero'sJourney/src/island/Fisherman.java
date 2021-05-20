@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class Ninja extends Extra {
+public class Fisherman extends Extra {
 
-	public Ninja(String fileName, int x, int y, int width, int height) {
+	public Fisherman(String fileName, int x, int y, int width, int height) {
 		super(fileName, x, y, height, height);
 		
 	}

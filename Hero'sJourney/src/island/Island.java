@@ -28,9 +28,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Extra e1;
-	Ninja n;
+	Fisherman fisherman;
 	
-	Text ninjaText;
+	Text fishermanText;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -80,7 +80,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//call paint methods of objects
 		i.paint(g);
 		e1.paint(g);
-		//n.paint(g);
+		fisherman.paint(g);
 		
 		//paint player last
 		p.paint(g);
@@ -90,21 +90,27 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		i.setVy(vy);
 		e1.setVx(vx);
 		e1.setVy(vy);
-		n.setVx(vx);
-		n.setVy(vy);
+		fisherman.setVx(vx);
+		fisherman.setVy(vy);
 		
 		//collision
 		p.collisionFalse(e1);
-		p.collisionFalse(n);
+		p.collisionFalse(fisherman);
 		p.collisionTrue(e1);
-		p.collisionTrue(n);
+		p.collisionTrue(fisherman);
 		updateCollision();
 		
 		//shuffle
 		shuffleMusic();
 		
-		if (n.isIntersectN(p)) {
-			ninjaText.print(g, verdanaSmall, width, height/4);
+		if (fisherman.isIntersectN(p)) {
+			if (fishermanText.isPrint()) {
+				fishermanText.print(g, verdanaSmall, width, height/4);
+			} else {
+				fishermanText.notPrint(g, verdanaSmall, width, height/4);
+			}
+		} else {
+			fishermanText.setPrint(false);
 		}
 		
 		g.setColor(Color.red);
@@ -123,10 +129,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
 		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
 		
-		g.drawLine(n.getX(), 0, n.getX(), height);		//draw line down middle
-		g.drawLine(0, n.getY(), width, n.getY());		//draw line across middle
-		g.drawLine(n.getX() + 150, 0, n.getX() + 150, height);		//draw line down middle
-		g.drawLine(0, n.getY() + 150, width, n.getY() + 150);		//draw line across middle
+		g.drawLine(fisherman.getX(), 0, fisherman.getX(), height);		//draw line down middle
+		g.drawLine(0, fisherman.getY(), width, fisherman.getY());		//draw line across middle
+		g.drawLine(fisherman.getX() + 50, 0, fisherman.getX() + 50, height);		//draw line down middle
+		g.drawLine(0, fisherman.getY() + 50, width, fisherman.getY() + 50);		//draw line across middle
 		
 		//g.setColor(Color.white);
 		//g.setFont(verdana);
@@ -223,15 +229,15 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		i = new IslandBackground("BackgroundSandTEst.png", width*4, height*4);
-		e1 = new Extra("fisherman.png", 850, 900, 50, 50);
-		n = new Ninja("ninja.png", 1000, 600, 150, 150);
+		i = new IslandBackground("BackgroundSandTEst.png", width*6, height*6);
+		e1 = new Extra("stego.png", 400, 100, 50, 50);
+		fisherman = new Fisherman("fisherman.png", 500, 100, 50, 50);
 		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
 		
-		ninjaText = new Text("and then he touched with his lips, \r\n" + 
+		fishermanText = new Text("and then he touched with his lips, \r\n" + 
 				"together we became. One Forever. \r\n" + 
 				"And when he took of his shirt \r\n" +
-				"I laughed fo he was an outie");
+				"I laughed fo he was an outie", "fisherman.png");
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
 		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
@@ -313,6 +319,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				isPaused = false;
 			} else {
 				isPaused = true;
+			}
+		}
+		
+		if (fisherman.isIntersectN(p)) {
+			if (e.getKeyCode() == 82) {
+				fishermanText.setPrint(true);
 			}
 		}
 	}
