@@ -67,7 +67,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				g.drawLine(0, 415 - 35, width, 415 - 35);
 				
 				//names
-				g.drawString("Music", 0, 100);
+				g.drawString("Music", 0, 125);
 				g.drawString("David", 0, 165);
 				g.drawString("Francis", 0, 290);
 				g.drawString("Eric", 0, 415);
