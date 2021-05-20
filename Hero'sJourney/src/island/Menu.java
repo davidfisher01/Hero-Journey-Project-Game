@@ -74,7 +74,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				
 				//songs
 				g.setFont(verdanaSmall);
-				g.drawString("Theme Music: Stegosaurus by Howdytoons", 200, 100);
+				g.drawString("Title Song: Stegosaurus by Howdytoons", 200, 100);
 				g.drawString("Boss Music: ", 200, 125);
 				g.drawString("22 by Taylor Swift", 200, 150);
 				g.drawString("Californication by Red Hot Chili Peppers", 200, 175);
@@ -86,7 +86,11 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				g.drawString("Room in Here by Anderson .Paak", 200, 325);
 				g.drawString("Skeletons by Travis Scott", 200, 350);
 				g.drawString("Triumph by J Hus", 200, 375);
-				g.drawString("eric loves pokimane", 200, 400);
+				g.drawString("Come Together by The Internet", 200, 400);
+				g.drawString("NEW MAGIC WAND by Tyler, the Creator", 200, 425);
+				g.drawString("PAC-MAN by Gorillaz", 200, 450);
+				g.drawString("Take the Long Way Home by Supertramp", 200, 475);
+				g.drawString("Weed in LA by Koreatown Oddity", 200, 500);
 				
 				return;
 			}
@@ -155,7 +159,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		credits = new Rectangle(0, 300, 200, 50);
 		d = new Extra("bronc.png", 150, 70, 300, 100);
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
-		d3 = new Extra("bronc.png", midX - 150, midY - 150, 300, 300);
+		d3 = new Extra("ninja.png", midX - 150, midY - 150, 300, 300);
 		
 		bg = new Music("Stegosaurus.wav", true, "Stegosaurus by Howdytoons");
 		bg.loop();

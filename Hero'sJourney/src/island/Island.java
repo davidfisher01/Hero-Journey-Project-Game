@@ -28,7 +28,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Extra e1;
-	Extra n;
+	Ninja n;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -91,12 +91,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		n.setVy(vy);
 		
 		//collision
-		p.collision(e1);
-		p.collision(n);
+		p.collisionFalse(e1);
+		p.collisionFalse(n);
+		p.collisionTrue(e1);
+		p.collisionTrue(n);
 		updateCollision();
 		
 		//shuffle
 		shuffleMusic();
+		
+		n.speak(g, p, verdana, width, height);
 		
 		g.setColor(Color.red);
 		g.drawLine(midX - 25, 0, midX - 25, height);	//left
@@ -229,6 +233,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		bg.add(new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift"));
 		bg.add(new Music("Skeletons.wav", true, "Skeletons by Travis Scott"));
 		bg.add(new Music("Triumph.wav", true, "Triumph by J Hus"));
+		bg.add(new Music("Come Together.wav", true, "Come Together by The Internet"));
+		bg.add(new Music("NEW MAGIC WAND.wav", true, "NEW MAGIC WAND by Tyler, the Creator"));
+		bg.add(new Music("PAC-MAN.wav", true, "PAC-MAN by Gorillaz"));
+		bg.add(new Music("Take The Long Way Home.wav", true, "Take the Long Way Home by Supertramp"));
+		bg.add(new Music("Weed In L.A..wav", true, "Weed in LA by Koreatown Oddity"));
 		
 		//start music
 		songNum = (int) (Math.random()*bg.size());

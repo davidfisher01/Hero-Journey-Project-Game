@@ -22,36 +22,43 @@ public class Protagonist extends Sprite{
 		System.out.println("west rect: " + westRect());
 	}
 	
-	public void collision (Extra e) {
+	public void collisionTrue (Extra e) {
 		if (northRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected north");
 			isColN = true;
-		} else {
-			isColN = false;
 		}
 		if (southRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected south");
 			isColS = true;
-		} else {
-			isColS = false;
 		}
 		if (eastRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected east");
 			isColE = true;
-		} else {
-			isColE = false;
 		}
 		if (westRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected west");
 			isColW = true;
 		}
-		else {
-			isColW = false;
-		}
 		if (getRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected rect");
 			isColG = true;
-		} else {
+		}
+	}
+	
+	public void collisionFalse (Extra e) {
+		if (!northRect().intersects(e.getRect())) {
+			isColN = false;
+		}
+		if (!southRect().intersects(e.getRect())) {
+			isColS = false;
+		}
+		if (!eastRect().intersects(e.getRect())) {
+			isColE = false;
+		}
+		if (!westRect().intersects(e.getRect())) {
+			isColW = false;
+		}
+		if (!getRect().intersects(e.getRect())) {
 			isColG = false;
 		}
 	}
