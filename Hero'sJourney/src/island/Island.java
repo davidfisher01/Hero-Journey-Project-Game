@@ -28,10 +28,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Extra e1;
-	Extra n;
+	Fisherman fisherman;
+	
+	Text fishermanText;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
+	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
 	
 	public int x, y;
 	public int vx, vy;
@@ -77,7 +80,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//call paint methods of objects
 		i.paint(g);
 		e1.paint(g);
-		n.paint(g);
+		fisherman.paint(g);
 		
 		//paint player last
 		p.paint(g);
@@ -87,37 +90,38 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		i.setVy(vy);
 		e1.setVx(vx);
 		e1.setVy(vy);
-		n.setVx(vx);
-		n.setVy(vy);
+		fisherman.setVx(vx);
+		fisherman.setVy(vy);
 		
 		//collision
-		p.collision(e1);
-		p.collision(n);
+		p.collisionFalse(e1);
+		p.collisionFalse(fisherman);
+		p.collisionTrue(e1);
+		p.collisionTrue(fisherman);
 		updateCollision();
 		
 		//shuffle
 		shuffleMusic();
 		
+		if (fisherman.isIntersectN(p)) {
+			if (fishermanText.isPrint()) {
+				fishermanText.print(g, verdanaSmall, width, height/4);
+			} else {
+				fishermanText.notPrint(g, verdanaSmall, width, height/4);
+			}
+		} else {
+			fishermanText.setPrint(false);
+		}
+		
 		g.setColor(Color.red);
-		g.drawLine(midX - 25, 0, midX - 25, height);	//left
+		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
 		g.drawLine(0, midY - 25, width, midY - 25);		//top
 		g.drawLine(midX + 25, 0, midX+25, height);		//right
 		g.drawLine(0, midY+25, width, midY+25);			//bot
 		g.drawLine(midX-37, 0, midX-37, height);		//draw line down middle
 		g.drawLine(0, midY-37, width, midY-37);			//draw line across middle
 		g.drawLine(midX+37, 0, midX+37, height);		//draw line down middle
-		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle
-		
-		g.setColor(Color.orange);
-		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
-		g.drawLine(0, e1.getY(), width, e1.getY());		//draw line across middle
-		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
-		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
-		
-		g.drawLine(n.getX(), 0, n.getX(), height);		//draw line down middle
-		g.drawLine(0, n.getY(), width, n.getY());		//draw line across middle
-		g.drawLine(n.getX() + 150, 0, n.getX() + 150, height);		//draw line down middle
-		g.drawLine(0, n.getY() + 150, width, n.getY() + 150);		//draw line across middle
+		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle*/
 		
 		//g.setColor(Color.white);
 		//g.setFont(verdana);
@@ -188,8 +192,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 
 		f.addKeyListener(this);
 		
-		//f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		//f.setUndecorated(false);
+		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		f.setUndecorated(false);
 		
 		//set default action for x button
 		//without this, your code will run behind the scenes until
@@ -214,10 +218,15 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		i = new IslandBackground("testIsland.png", width*2, height*2);
-		e1 = new Extra("stego.png", 850, 850, 50, 50);
-		n = new Ninja("ninja.png", 1000, 600, 150, 150);
-		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
+		i = new IslandBackground("BackgroundSandTEst.png", width*4, height*5);
+		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
+		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
+		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
+		
+		fishermanText = new Text("and then he touched with his lips, \r\n" + 
+				"together we became. One Forever. \r\n" + 
+				"And when he took of his shirt \r\n" +
+				"I laughed fo he was an outie", "fisherman.png");
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
 		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
@@ -229,6 +238,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		bg.add(new Music("Shake It Off.wav", true, "Shake it Off by Taylor Swift"));
 		bg.add(new Music("Skeletons.wav", true, "Skeletons by Travis Scott"));
 		bg.add(new Music("Triumph.wav", true, "Triumph by J Hus"));
+		bg.add(new Music("Come Together.wav", true, "Come Together by The Internet"));
+		bg.add(new Music("NEW MAGIC WAND.wav", true, "NEW MAGIC WAND by Tyler, the Creator"));
+		bg.add(new Music("PAC-MAN.wav", true, "PAC-MAN by Gorillaz"));
+		bg.add(new Music("Take The Long Way Home.wav", true, "Take the Long Way Home by Supertramp"));
+		bg.add(new Music("Weed In L.A..wav", true, "Weed in LA by Koreatown Oddity"));
 		
 		//start music
 		songNum = (int) (Math.random()*bg.size());
@@ -294,6 +308,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				isPaused = false;
 			} else {
 				isPaused = true;
+			}
+		}
+		
+		if (fisherman.isIntersectN(p)) {
+			if (e.getKeyCode() == 82) {
+				fishermanText.setPrint(true);
 			}
 		}
 	}
