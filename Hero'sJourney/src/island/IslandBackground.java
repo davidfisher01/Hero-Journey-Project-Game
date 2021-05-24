@@ -5,8 +5,8 @@ public class IslandBackground extends Sprite{
 
 	public IslandBackground(String fileName, int width, int height) {
 		super(fileName, width, height);
-		vx = -3100;
-		vy = -2925;
+		vx = -4700;
+		vy = -4200;
 		this.width = width;
 		this.height = height;
 	}

@@ -1,5 +1,7 @@
 package island;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class Protagonist extends Sprite{
@@ -20,6 +22,16 @@ public class Protagonist extends Sprite{
 		System.out.println("south rect: " + southRect());
 		System.out.println("east rect: " + eastRect());
 		System.out.println("west rect: " + westRect());
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		
+		g.setColor(Color.red);
+		g.drawLine(x, y, x, y + height);					//left
+		g.drawLine(x, y, x + width, y);						//top
+		g.drawLine(x + width, y, x + width, y + height);	//right
+		g.drawLine(x, y + height, x + width, y + height);	//bot
 	}
 	
 	public void collisionTrue (Extra e) {

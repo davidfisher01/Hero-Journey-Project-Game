@@ -114,25 +114,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		
 		g.setColor(Color.red);
-		g.drawLine(midX - 25, 0, midX - 25, height);	//left
+		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
 		g.drawLine(0, midY - 25, width, midY - 25);		//top
 		g.drawLine(midX + 25, 0, midX+25, height);		//right
 		g.drawLine(0, midY+25, width, midY+25);			//bot
 		g.drawLine(midX-37, 0, midX-37, height);		//draw line down middle
 		g.drawLine(0, midY-37, width, midY-37);			//draw line across middle
 		g.drawLine(midX+37, 0, midX+37, height);		//draw line down middle
-		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle
-		
-		g.setColor(Color.orange);
-		g.drawLine(e1.getX(), 0, e1.getX(), height);		//draw line down middle
-		g.drawLine(0, e1.getY(), width, e1.getY());		//draw line across middle
-		g.drawLine(e1.getX() + 50, 0, e1.getX() + 50, height);		//draw line down middle
-		g.drawLine(0, e1.getY() + 50, width, e1.getY() + 50);		//draw line across middle
-		
-		g.drawLine(fisherman.getX(), 0, fisherman.getX(), height);		//draw line down middle
-		g.drawLine(0, fisherman.getY(), width, fisherman.getY());		//draw line across middle
-		g.drawLine(fisherman.getX() + 50, 0, fisherman.getX() + 50, height);		//draw line down middle
-		g.drawLine(0, fisherman.getY() + 50, width, fisherman.getY() + 50);		//draw line across middle
+		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle*/
 		
 		//g.setColor(Color.white);
 		//g.setFont(verdana);
@@ -203,8 +192,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 
 		f.addKeyListener(this);
 		
-		//f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		//f.setUndecorated(false);
+		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		f.setUndecorated(false);
 		
 		//set default action for x button
 		//without this, your code will run behind the scenes until
@@ -229,10 +218,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		i = new IslandBackground("BackgroundSandTEst.png", width*6, height*6);
-		e1 = new Extra("stego.png", 400, 100, 50, 50);
-		fisherman = new Fisherman("fisherman.png", 500, 100, 50, 50);
-		p = new Protagonist("bronc.png", midX - 25, midY - 25, 50, 50);
+		i = new IslandBackground("BackgroundSandTEst.png", width*4, height*5);
+		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
+		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
+		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
 		
 		fishermanText = new Text("and then he touched with his lips, \r\n" + 
 				"together we became. One Forever. \r\n" + 
