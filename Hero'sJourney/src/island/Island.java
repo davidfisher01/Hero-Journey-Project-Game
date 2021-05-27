@@ -218,7 +218,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		i = new IslandBackground("BackgroundSandTEst.png", width*4, height*5);
+		i = new IslandBackground("DraftIsland.png", width*4, height*5);
 		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
 		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
