@@ -6,21 +6,8 @@ public class Task {
 		completed = false;
 	}
 
-	public void catchFish() {
-		
+	public void setCompleted() {
+		completed = true;
 	}
-	public void buildBridge() {
-		
-	}
-	public void collectFlowers() {
-		
-	}
-	public void save() {
-		
-	}
-	public void getToTown() {
-		
-	}
-	
 	
 }

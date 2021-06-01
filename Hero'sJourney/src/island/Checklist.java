@@ -19,12 +19,12 @@ public class Checklist {
 		Task buildBridge = new Task();
 		Task save = new Task();
 		Task collectFlowers = new Task();
-		Task getToTown = new Task();
+		//WalkToTown getToTown = new WalkToTown(g);
 		tasklist.add(catchFish);
 		tasklist.add(buildBridge);
 		tasklist.add(save);
 		tasklist.add(collectFlowers);
-		tasklist.add(getToTown);
+		//tasklist.add(getToTown);
 		
 		img = getImage("clipboard.png");
 	}
