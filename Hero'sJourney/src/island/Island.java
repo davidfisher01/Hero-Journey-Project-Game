@@ -130,11 +130,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
 		if(k == 0) {
-			test = new WalkToTown(g);
+			test = new WalkToTown();
 			k++;
 		
 		}
-		test.update(p);
+		g.setFont(verdana);
+		test.update(p, x, y, g);
+		g.drawRect(x, y, 50, 50);
 	}
 	
 	public void displayText(String c) {
