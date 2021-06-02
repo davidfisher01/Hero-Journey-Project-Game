@@ -32,6 +32,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	Text fishermanText;
 	
+	CollectFlowers test;
+	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
@@ -112,6 +114,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		} else {
 			fishermanText.setPrint(false);
 		}
+		
+		test.update(p, x, y, g);
+		g.drawRect(x, y, 50, 50);
+		g.drawRect(x + 100, y, 50, 50);
+		g.drawRect(x + 200, y, 50, 50);
 		
 		g.setColor(Color.red);
 		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
@@ -222,6 +229,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
 		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
+		test = new CollectFlowers();
 		
 		fishermanText = new Text("and then he touched with his lips, \r\n" + 
 				"together we became. One Forever. \r\n" + 
