@@ -39,7 +39,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
-	
+	public int k = 0;
+	WalkToTown test;
 	public int x, y;
 	public int x1, x2, y1, y2;
 	public int vx, vy;
@@ -56,7 +57,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
-		
 		//update methods
 		updateBackground();
 		updateVar();
@@ -162,15 +162,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
+		if(k == 0) {
+			test = new WalkToTown();
+			k++;
 		
-		//grid
-		//for(int i = 0; i < 1920/50; i++) {
-			//for(int j = 0; j < 1080/50; j++) {
-				//g.drawLine(i*50, 0, i*50, 1080);
-				//g.drawLine(0, j*50, 1920, j*50);
-			//}
-		//}
-		
+		}
+		g.setFont(verdana);
+		test.update(p, x, y, g);
+		g.drawRect(x, y, 50, 50);
 	}
 	
 	
