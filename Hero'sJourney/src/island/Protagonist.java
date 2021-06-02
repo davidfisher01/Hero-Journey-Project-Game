@@ -34,6 +34,47 @@ public class Protagonist extends Sprite{
 		g.drawLine(x, y + height, x + width, y + height);	//bot
 	}
 	
+	public void collisionTrue (ColRects e) {
+		if (northRect().intersects(e.getRect())) {
+			System.out.println("Player: intersected north");
+			isColN = true;
+		}
+		if (eastRect().intersects(e.getRect())) {
+			System.out.println("Player: intersected east");
+			isColE = true;
+		}
+		if (southRect().intersects(e.getRect())) {
+			System.out.println("Player: intersected south");
+			isColS = true;
+		}
+		if (westRect().intersects(e.getRect())) {
+			System.out.println("Player: intersected west");
+			isColW = true;
+		}
+		if (getRect().intersects(e.getRect())) {
+			System.out.println("Player: intersected rect");
+			isColG = true;
+		}
+	}
+	
+	public void collisionFalse (ColRects e) {
+		if (!northRect().intersects(e.getRect())) {
+			isColN = false;
+		}
+		if (!southRect().intersects(e.getRect())) {
+			isColS = false;
+		}
+		if (!eastRect().intersects(e.getRect())) {
+			isColE = false;
+		}
+		if (!westRect().intersects(e.getRect())) {
+			isColW = false;
+		}
+		if (!getRect().intersects(e.getRect())) {
+			isColG = false;
+		}
+	}
+	
 	public void collisionTrue (Extra e) {
 		if (northRect().intersects(e.getRect())) {
 			System.out.println("Player: intersected north");
@@ -134,4 +175,17 @@ public class Protagonist extends Sprite{
 		Rectangle rect = new Rectangle(x - width/4,y,width/4,height);
 		return rect;
 	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
 }
