@@ -174,11 +174,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			k++;
 		
 		}
+		Checklist a = new Checklist(g);
 		g.setFont(verdana);
 		test.update(p, x, y, g);
 		g.drawRect(x, y, 50, 50);
 	}
-	
 	
 	
 	public void displayText(String c) {
