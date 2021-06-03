@@ -6,6 +6,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Music  implements Runnable  {
@@ -48,6 +49,17 @@ public class Music  implements Runnable  {
 	}
 	public boolean isStopped() {
 		return !audioClip.isActive();
+	}
+	public float getVolume() {
+	    FloatControl gainControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);        
+	    return (float) (100*Math.pow(10f, gainControl.getValue() / 20f));
+	}
+
+	public void setVolume(float volume) {
+	    if (volume < 0f || volume > 1f)
+	        throw new IllegalArgumentException("Volume not valid: " + volume);
+	    FloatControl gainControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);        
+	    gainControl.setValue(20f * (float) Math.log10(volume));
 	}
 	public void start3() {
 	     t = new Thread (this, fn);
