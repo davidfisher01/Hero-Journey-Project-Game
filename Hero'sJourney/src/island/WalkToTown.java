@@ -32,7 +32,7 @@ public class WalkToTown extends Task{
 			img = img.getScaledInstance(10, 10, Image.SCALE_DEFAULT);
 			g.drawImage(img, 100, 580, null);
 		}else {
-			g.drawString("Navigate towards the town to find the blacksmith!!!", 0, 100);
+			g.drawString("Navigate up the path to the town to find the blacksmith!!!", 0, 100);
 		}
 	}
 }

@@ -38,6 +38,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	CollectFlowers test;
 	WalkToTown test2;
+	CatchFish test3;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -171,10 +172,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if(k == 0) {
 			test2 = new WalkToTown();
 			k++;
+			test3 = new CatchFish();
 		
 		}
 		Checklist a = new Checklist(g);
 		g.setFont(verdana);
+		test.update(p, x, y, g);
+		test3.update(p, x, y, g);
+		//g.drawRect(x, y, 50, 50);
 		//test2.update(p, x, y, g);
 	}
 	
@@ -390,7 +395,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		test3.catchFish(e);
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			
 			//System.out.println("player: moved south");
@@ -461,6 +466,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			
 			
 		}
+		
 	}
 	
 	
