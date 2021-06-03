@@ -140,6 +140,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.drawRect(x, y, 50, 50);
 	}
 	
+	
 	public void displayText(String c) {
 		t = new JTextArea();
     	f.add(t);
