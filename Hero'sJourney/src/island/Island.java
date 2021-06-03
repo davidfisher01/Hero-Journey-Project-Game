@@ -3,6 +3,7 @@ package island;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -27,8 +28,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	IslandBackground i;
 	Protagonist p;
+	Protagonist ghost;
 	Extra e1;
 	Fisherman fisherman;
+	
+	ArrayList<ColRects> iCol = new ArrayList<ColRects>();
 	
 	Text fishermanText;
 	
@@ -38,13 +42,17 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int k = 0;
 	WalkToTown test;
 	public int x, y;
+	public int x1, x2, y1, y2;
 	public int vx, vy;
 	public int midX, midY;
 	public int width, height;
 	public int songNum;
+	public int currX;
+	public int currY;
 	public boolean canShuffle = false;
 	public boolean isLoading = true, isPaused = false;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
+	
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -52,6 +60,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//update methods
 		updateBackground();
 		updateVar();
+		
+		//grid
+		
+		
 		
 		//loading screen
 		if (isLoading) {
@@ -83,6 +95,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		fisherman.paint(g);
 		
 		//paint player last
+		g.setColor(Color.black);
+		for(int i = 0; i < iCol.size(); i++) {
+			g.drawRect(iCol.get(i).getX(), iCol.get(i).getY(), iCol.get(i).getWidth(), iCol.get(i).getHeight());
+			//System.out.println("" + iCol.get(i).getX() + ", " + iCol.get(i).getY() + ", " + iCol.get(i).getWidth() + ", " + iCol.get(i).getHeight());
+		}
+		
+		g.setColor(Color.orange);
 		p.paint(g);
 		
 		//move all objects but the player
@@ -94,10 +113,21 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		fisherman.setVy(vy);
 		
 		//collision
+		for(int i = 0; i < iCol.size(); i++) {
+			p.collisionFalse(iCol.get(i));
+		}
+		
+		
 		p.collisionFalse(e1);
 		p.collisionFalse(fisherman);
 		p.collisionTrue(e1);
 		p.collisionTrue(fisherman);
+		
+		for(int i = 0; i < iCol.size(); i++) {
+			p.collisionTrue(iCol.get(i));
+		}
+		
+		
 		updateCollision();
 		
 		//shuffle
@@ -114,6 +144,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		
 		g.setColor(Color.red);
+		
+
+		
 		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
 		g.drawLine(0, midY - 25, width, midY - 25);		//top
 		g.drawLine(midX + 25, 0, midX+25, height);		//right
@@ -177,6 +210,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void updateBackground() {
 		x += vx;
 		y += vy;
+		for(int i = 0; i < iCol.size();i++) {
+			iCol.get(i).updatePosition(vx, vy);
+		}
+		currX -= vx;
+		currY -= vy;
+		
+		
 	}
 	
 	public void updateCollision() {
@@ -192,6 +232,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (p.isColW() && isMoveW) {
 			vx = 0;
 		}
+		
 	}
 	
 	/* constructor for MainPain class */
@@ -228,10 +269,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		i = new IslandBackground("BackgroundSandTEst.png", width*4, height*5);
+		i = new IslandBackground("IslandFinal.png", width*4, height*5);
 		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
 		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
+		ghost = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
 		
 		fishermanText = new Text("and then he touched with his lips, \r\n" + 
 				"together we became. One Forever. \r\n" + 
@@ -262,6 +304,56 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//update variables to start game
 		canShuffle = true;
 		isLoading = false;
+		
+		currX = midX-50;
+		currY = midY-50;
+		
+		
+		
+		//trees
+		iCol.add(new ColRects(464, -131, 250, 200));
+		iCol.add(new ColRects(1344, 34, 250, 200));
+		iCol.add(new ColRects(779, -491, 250, 200));
+		iCol.add(new ColRects(-246, 49, 250, 200));
+		iCol.add(new ColRects(1414, -476, 250, 200));
+		iCol.add(new ColRects(1299, -906, 250, 200));
+		iCol.add(new ColRects(779, -1041, 250, 200));
+		iCol.add(new ColRects(1509, -2541, 250, 200));
+		iCol.add(new ColRects(-1546, -2476, 250, 200));
+		iCol.add(new ColRects(-1751, -2611, 250, 200));
+		iCol.add(new ColRects(-1826, -2261, 250, 200));
+		iCol.add(new ColRects(-2056, -2361, 250, 200));
+		iCol.add(new ColRects(-2321, -2371, 250, 200));
+		iCol.add(new ColRects(-2581, -2371, 250, 200));
+		iCol.add(new ColRects(-2841, -2506, 250, 200));
+		iCol.add(new ColRects(-3401, -2276, 250, 200));
+		iCol.add(new ColRects(-456, -1051, 250, 200));
+		iCol.add(new ColRects(-1126, -826, 250, 200));
+		iCol.add(new ColRects(-2791, -621, 250, 200));
+		iCol.add(new ColRects(-1806, -181, 250, 200));
+		iCol.add(new ColRects(-1341, -2131, 250, 200));
+		
+		//beach tree
+		iCol.add(new ColRects(-1651, 249, 140, 125));
+		iCol.add(new ColRects(-2836, 114, 140, 125));
+		
+		
+		//houses
+		iCol.add(new ColRects(-2806, -1081, 555, 280));
+		iCol.add(new ColRects(-2796, -1671, 530, 425));
+		iCol.add(new ColRects(-2231, -1846, 535, 605));
+		iCol.add(new ColRects(-1441, -1846, 320, 590));
+		iCol.add(new ColRects(-3216, -3176, 1690, 520));
+		iCol.add(new ColRects(-2831, -3316, 930, 800));
+		iCol.add(new ColRects(619, -1601, 535, 395));
+		
+		//cliff
+		iCol.add(new ColRects(-721, 294, 1075, 210));
+		
+		
+		
+		
+		
 	}
 	
 	public void updateVar() {
@@ -282,10 +374,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 	}
 	
+	
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
+			
 			//System.out.println("player: moved south");
 			if (!p.isColS()) {
 				vy = -5;
@@ -293,6 +389,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
+			
 			//System.out.println("player: moved north");
 			if (!p.isColN()) {
 				vy = 5;
@@ -300,6 +397,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
+			
 			//System.out.println("player: moved east");
 			if (!p.isColE()) {
 				vx = -5;
@@ -307,6 +405,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
+			
 			//System.out.println("player: moved west");
 			if (!p.isColW()) {
 				vx = 5;
@@ -314,6 +413,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		if (e.getKeyCode() == 27 ) {
+			
 			if (isPaused) {
 				isPaused = false;
 			} else {
@@ -326,7 +426,26 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				fishermanText.setPrint(true);
 			}
 		}
+		//enter
+		if (e.getKeyCode() == 10) {
+			System.out.println("iCol.add(new ColRects(" + x1 + ", " + y1 + ", " + (x2 - x1) + ", " + (y2 - y1) + "));");
+		}
+		//p
+		if(e.getKeyCode() == 80) {
+			x2 = currX;
+			y2 = currY;
+		}
+		//0
+		if(e.getKeyCode() == 79) {
+			x1 = currX;
+			y1 = currY;
+			
+			
+		}
+		
 	}
+	
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
