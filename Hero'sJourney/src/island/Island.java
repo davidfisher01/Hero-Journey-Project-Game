@@ -36,16 +36,20 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	Text fishermanText;
 	
+	CollectFlowers test;
+	WalkToTown test2;
+	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
-	
+	public int k = 0;
 	public int x, y;
 	public int x1, x2, y1, y2;
 	public int vx, vy;
 	public int midX, midY;
 	public int width, height;
 	public int songNum;
+	public boolean playSong = true;
 	public int currX;
 	public int currY;
 	public boolean canShuffle = false;
@@ -56,14 +60,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
-		
-		//update methods
-		updateBackground();
-		updateVar();
-		
-		//grid
-		
-		
 		
 		//loading screen
 		if (isLoading) {
@@ -76,6 +72,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
+		//update methods
+		updateBackground();
+		updateVar();
+		updateMusic();
+		
 		//paused screen
 		if (isPaused) {
 			g.setFont(verdana);
@@ -85,6 +86,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.drawString("Paused, press esc to continue", 0, 100);
 			g.drawString("Now Playing:", 0, 300);
 			g.drawString(bg.get(songNum).getSongName(), 0, 350);
+			g.drawString("Volume:", 0, 400);
+			g.drawString(""+ bg.get(songNum).getVolume(), 0, 450);
+			
+			g.setFont(verdanaSmall);
+			g.drawString("press m to mute song", 0, 525);
 			
 			return;
 		}
@@ -130,9 +136,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		updateCollision();
 		
-		//shuffle
-		shuffleMusic();
-		
+		//protagonist intersecting with king
 		if (fisherman.isIntersectN(p)) {
 			if (fishermanText.isPrint()) {
 				fishermanText.print(g, verdanaSmall, width, height/4);
@@ -142,6 +146,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		} else {
 			fishermanText.setPrint(false);
 		}
+		
+		test.update(p, x, y, g);
+		g.drawRect(x, y, 50, 50);
+		g.drawRect(x + 100, y, 50, 50);
+		g.drawRect(x + 200, y, 50, 50);
 		
 		g.setColor(Color.red);
 		
@@ -162,17 +171,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
+		if(k == 0) {
+			test2 = new WalkToTown();
+			k++;
 		
-		//grid
-		//for(int i = 0; i < 1920/50; i++) {
-			//for(int j = 0; j < 1080/50; j++) {
-				//g.drawLine(i*50, 0, i*50, 1080);
-				//g.drawLine(0, j*50, 1920, j*50);
-			//}
-		//}
-		
+		}
+		Checklist a = new Checklist(g);
+		g.setFont(verdana);
+		test.update(p, x, y, g);
+		g.drawRect(x, y, 50, 50);
 	}
-	
 	
 	
 	public void displayText(String c) {
@@ -192,7 +200,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
     	//setSize(300, 300);
     }
 	
-	public void shuffleMusic() {
+	public void updateMusic() {
 		if (canShuffle) {
 			if (bg.get(songNum).isStopped()) {
 				int temp;
@@ -205,6 +213,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				System.out.println("NEXT SONG: " + songNum);
 				bg.get(songNum).play();
 			}
+		}
+		
+		if (!playSong) {
+			bg.get(songNum).setVolume(0);
+		} else {
+			bg.get(songNum).setVolume(1);
 		}
 	}
 	
@@ -274,7 +288,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
 		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
-		ghost = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
+		test = new CollectFlowers();
 		
 		fishermanText = new Text("and then he touched with his lips, \r\n" + 
 				"together we became. One Forever. \r\n" + 
@@ -427,6 +441,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				fishermanText.setPrint(true);
 			}
 		}
+		
+		if (e.getKeyCode() == 77 && isPaused) {
+			if (playSong) {
+				playSong = false;
+			} else {
+				playSong = true;
+			}
+		}
 		//enter
 		if (e.getKeyCode() == 10) {
 			System.out.println("iCol.add(new ColRects(" + x1 + ", " + y1 + ", " + (x2 - x1) + ", " + (y2 - y1) + "));");
@@ -443,7 +465,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			
 			
 		}
-		
 	}
 	
 	
