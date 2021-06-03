@@ -148,9 +148,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		
 		test.update(p, x, y, g);
-		g.drawRect(x, y, 50, 50);
-		g.drawRect(x + 100, y, 50, 50);
-		g.drawRect(x + 200, y, 50, 50);
 		
 		g.setColor(Color.red);
 		
@@ -177,8 +174,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		}
 		g.setFont(verdana);
-		test.update(p, x, y, g);
-		g.drawRect(x, y, 50, 50);
+		//test2.update(p, x, y, g);
 	}
 	
 	
@@ -254,11 +250,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public Island() {
 		
 		//Set the size of the window
-		f.setSize(800,600); //width and height
+		f.setSize(1938, 1048); //width and height
 
 		f.addKeyListener(this);
 		
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		//f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		f.setUndecorated(false);
 		
 		//set default action for x button
