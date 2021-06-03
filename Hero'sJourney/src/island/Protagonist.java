@@ -36,23 +36,23 @@ public class Protagonist extends Sprite{
 	
 	public void collisionTrue (ColRects e) {
 		if (northRect().intersects(e.getRect())) {
-			System.out.println("Player: intersected north");
+			//System.out.println("Player: intersected north");
 			isColN = true;
 		}
 		if (eastRect().intersects(e.getRect())) {
-			System.out.println("Player: intersected east");
+			//System.out.println("Player: intersected east");
 			isColE = true;
 		}
 		if (southRect().intersects(e.getRect())) {
-			System.out.println("Player: intersected south");
+			//System.out.println("Player: intersected south");
 			isColS = true;
 		}
 		if (westRect().intersects(e.getRect())) {
-			System.out.println("Player: intersected west");
+			//System.out.println("Player: intersected west");
 			isColW = true;
 		}
 		if (getRect().intersects(e.getRect())) {
-			System.out.println("Player: intersected rect");
+			//System.out.println("Player: intersected rect");
 			isColG = true;
 		}
 	}
@@ -157,22 +157,22 @@ public class Protagonist extends Sprite{
 	}
 
 	public Rectangle northRect() {
-		Rectangle rect = new Rectangle(x,y - height/4,width,height/4);
+		Rectangle rect = new Rectangle(x,y - height/25,width,height/25);
 		return rect;
 	}
 	
 	public Rectangle southRect() {
-		Rectangle rect = new Rectangle(x,y + height,width,height/4);
+		Rectangle rect = new Rectangle(x,y + height,width,height/25);
 		return rect;
 	}
 	
 	public Rectangle eastRect() {
-		Rectangle rect = new Rectangle(x + width,y,width/4,height);
+		Rectangle rect = new Rectangle(x + width,y,width/25,height);
 		return rect;
 	}
 	
 	public Rectangle westRect() {
-		Rectangle rect = new Rectangle(x - width/4,y,width/4,height);
+		Rectangle rect = new Rectangle(x - width/25,y,width/25,height);
 		return rect;
 	}
 	
