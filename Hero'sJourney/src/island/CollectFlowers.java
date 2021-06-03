@@ -26,19 +26,19 @@ public class CollectFlowers {
 	
 	public void update(Protagonist p, int x, int y, Graphics g) {
 		//flowerone
-		if (isCollected(p, x, y)) {
+		if (isCollected(p, x, y) && !flowerOne) {
 			flowerOne = true;
 			System.out.println("flower one picked");
 		}
 		
 		//flowerone
-		if (isCollected(p, x + 100, y)) {
+		if (isCollected(p, x + 100, y) && !flowerTwo) {
 			flowerTwo = true;
 			System.out.println("flower two picked");
 		}
 				
 		//flowerone
-		if (isCollected(p, x + 200, y)) {
+		if (isCollected(p, x + 200, y) && !flowerThree) {
 			flowerThree = true;
 			System.out.println("flower three picked");
 		}
@@ -52,7 +52,7 @@ public class CollectFlowers {
 	}
 	
 	public boolean finishedFlowerPicking() {
-		if (flowerOne == true && flowerTwo == true && flowerThree == true) {
+		if (flowerOne == true && flowerTwo == true && flowerThree == true	) {
 			return true;
 		} else {
 			return false;

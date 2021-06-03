@@ -43,6 +43,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int midX, midY;
 	public int width, height;
 	public int songNum;
+	public boolean playSong = true;
 	public boolean canShuffle = false;
 	public boolean isLoading = true, isPaused = false;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
@@ -50,10 +51,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
 		super.paintComponent(g);
-		
-		//update methods
-		updateBackground();
-		updateVar();
 		
 		//loading screen
 		if (isLoading) {
@@ -66,6 +63,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
+		//update methods
+		updateBackground();
+		updateVar();
+		updateMusic();
+		
 		//paused screen
 		if (isPaused) {
 			g.setFont(verdana);
@@ -75,6 +77,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.drawString("Paused, press esc to continue", 0, 100);
 			g.drawString("Now Playing:", 0, 300);
 			g.drawString(bg.get(songNum).getSongName(), 0, 350);
+			g.drawString("Volume:", 0, 400);
+			g.drawString(""+ bg.get(songNum).getVolume(), 0, 450);
+			
+			g.setFont(verdanaSmall);
+			g.drawString("press m to mute song", 0, 525);
 			
 			return;
 		}
@@ -102,9 +109,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collisionTrue(fisherman);
 		updateCollision();
 		
-		//shuffle
-		shuffleMusic();
-		
+		//protagonist intersecting with king
 		if (fisherman.isIntersectN(p)) {
 			if (fishermanText.isPrint()) {
 				fishermanText.print(g, verdanaSmall, width, height/4);
@@ -155,7 +160,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
     	//setSize(300, 300);
     }
 	
-	public void shuffleMusic() {
+	public void updateMusic() {
 		if (canShuffle) {
 			if (bg.get(songNum).isStopped()) {
 				int temp;
@@ -168,6 +173,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				System.out.println("NEXT SONG: " + songNum);
 				bg.get(songNum).play();
 			}
+		}
+		
+		if (!playSong) {
+			bg.get(songNum).setVolume(0);
+		} else {
+			bg.get(songNum).setVolume(1);
 		}
 	}
 	
@@ -322,6 +333,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (fisherman.isIntersectN(p)) {
 			if (e.getKeyCode() == 82) {
 				fishermanText.setPrint(true);
+			}
+		}
+		
+		if (e.getKeyCode() == 77 && isPaused) {
+			if (playSong) {
+				playSong = false;
+			} else {
+				playSong = true;
 			}
 		}
 	}
