@@ -33,7 +33,7 @@ public class Checklist {
 		img = getImage("output-onlinepngtools.png");
 		g.drawImage(img, 0, 500, null);
 		g.setFont(stringFont);
-		g.drawString("Arrive at Village", 70, 580);
+		g.drawString("Arrive at Blacksmith", 70, 580);
 		g.drawString("Build Bridge", 70, 600);
 		g.drawString("Collect Flowers", 70, 620);
 		g.drawString("Catch Fish", 70, 640);
