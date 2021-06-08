@@ -14,11 +14,6 @@ public class WalkToTown extends Task{
 		System.out.println("Created task WalkToTown");
 	}
 	
-	public boolean isAtTown(Protagonist p, int x, int y) {
-		r = new Rectangle(x + 300, y - 1000, 1700, 50);// adjust these #'s
-		return r.intersects(p.getRect());
-	}
-	
 	public void update(Protagonist p, int x, int y, Graphics g) {
 		if(isAtTown(p, x, y)) {
 			setCompleted();
@@ -31,5 +26,10 @@ public class WalkToTown extends Task{
 			g.setColor(Color.green);
 			g.drawRect(x + 300, y - 1000, 1700, 50);
 		}
+	}
+	
+	public boolean isAtTown(Protagonist p, int x, int y) {
+		r = new Rectangle(x + 300, y - 1000, 1700, 50);// adjust these #'s
+		return r.intersects(p.getRect());
 	}
 }

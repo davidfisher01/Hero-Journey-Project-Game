@@ -176,7 +176,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		
 		start = new Rectangle(0, 100, 150, 50);
 		credits = new Rectangle(0, 300, 200, 50);
-		d = new Extra("bronc.png", 150, 70, 300, 100);
+		d = new Extra("bronc.png", 155, 70, 300, 100);
 		d2 = new Extra("bronc.png", midX, midY, midX, midY);
 		d3 = new Extra("ninja.png", midX - 150, midY - 150 - 50, 300, 300);
 		

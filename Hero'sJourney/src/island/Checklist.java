@@ -12,10 +12,16 @@ import java.util.ArrayList;
 public class Checklist {
 	
 	private WalkToTown wtt;
+	private BuildBridge bb;
+	private CollectFlowers cfl;
+	private CatchFish cfi;
 	private Image img;
 
 	public Checklist() {
 		wtt = new WalkToTown();
+		bb = new BuildBridge();
+		cfl = new CollectFlowers();
+		cfi = new CatchFish();
 	}
 	
 	public void updateTasks(Protagonist p, int x, int y, Graphics g) {
@@ -29,10 +35,19 @@ public class Checklist {
 		
 		if (wtt.isCompleted() == false) {
 			g.setColor(Color.black);
-			g.drawString("Navigate to the town", 70, 580);
+			g.drawString("Navigate to the town", 65, 580);
 		} else {
+			bb.update(p, x, y, g);
 			g.setColor(Color.blue);
-			g.drawString("Navigate to the town", 70, 580);
+			g.drawString("Navigate to the town", 65, 730);
+			if (bb.isCompleted() == false) {
+				g.setColor(Color.black);
+				g.drawString("Build Bridge", 65, 580);
+			} else {
+				cfl.update(p, x, y, g);
+				g.setColor(Color.blue);
+				g.drawString("Bridge Built!", 65, 715);
+			}
 		}
 	}
 	

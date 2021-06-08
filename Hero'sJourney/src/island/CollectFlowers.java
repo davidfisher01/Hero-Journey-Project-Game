@@ -3,7 +3,7 @@ package island;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class CollectFlowers {
+public class CollectFlowers extends Task{
 	
 	public boolean flowerOne, flowerTwo, flowerThree;
 	public int x1, y1; //x and y of flower one
@@ -21,16 +21,7 @@ public class CollectFlowers {
 		x3 = 200;
 		y3 = 200;
 		
-		System.out.println("created collectFlowers task");
-	}
-	
-	public boolean isCollected(Protagonist p, int x, int y) {
-		Rectangle r = new Rectangle(x, y, 50, 50);// adjust these #'s
-		if (r.intersects(p.getRect())) {
-			return true;
-		} else {
-			return false;
-		}
+		System.out.println("created task CollectFlowers");
 	}
 	
 	public void update(Protagonist p, int x, int y, Graphics g) {
@@ -53,7 +44,7 @@ public class CollectFlowers {
 		}
 		
 		if (finishedFlowerPicking()) {
-			//setCompleted(); 		//uncomment once you push code
+			setCompleted();
 		} else {
 			g.drawString("pic some flowers g", 0, 100);
 		}
@@ -69,8 +60,17 @@ public class CollectFlowers {
 		
 	}
 	
+	public boolean isCollected(Protagonist p, int x, int y) {
+		Rectangle r = new Rectangle(x, y, 50, 50);// adjust these #'s
+		if (r.intersects(p.getRect())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean finishedFlowerPicking() {
-		if (flowerOne == true && flowerTwo == true && flowerThree == true	) {
+		if (flowerOne == true && flowerTwo == true && flowerThree == true) {
 			return true;
 		} else {
 			return false;
