@@ -43,10 +43,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int midX, midY;
 	public int width, height;
 	public int songNum;
-	public boolean playSong = true;
 	public int currX;
 	public int currY;
-	public boolean canShuffle = false;
+	public boolean canShuffle = false, playSong = true, skipSong = false;
 	public boolean isLoading = true, isPaused = false;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
 	
@@ -83,7 +82,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.drawString(""+ bg.get(songNum).getVolume(), 0, 450);
 			
 			g.setFont(verdanaSmall);
-			g.drawString("press m to mute song", 0, 525);
+			if (playSong) {
+				g.drawString("press m to mute song", 0, 525);
+			} else {
+				g.drawString("press m to unmute song", 0, 525);
+			}
+			g.drawString("press n to skip song", 0, 550);
 			
 			return;
 		}
@@ -186,6 +190,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			bg.get(songNum).setVolume(0);
 		} else {
 			bg.get(songNum).setVolume(1);
+		}
+		
+		if (skipSong) {
+			bg.get(songNum).stop();
+			skipSong = false;
 		}
 	}
 	
@@ -365,6 +374,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				playSong = true;
 			}
 		}
+		if (e.getKeyCode() == 78 && isPaused) {
+			if (skipSong) {
+				skipSong = false;
+			} else {
+				skipSong = true;
+			}
+		}
+		
 		//enter
 		if (e.getKeyCode() == 10) {
 			System.out.println("iCol.add(new ColRects(" + x1 + ", " + y1 + ", " + (x2 - x1) + ", " + (y2 - y1) + "));");
