@@ -39,14 +39,21 @@ public class Checklist {
 		} else {
 			bb.update(p, x, y, g);
 			g.setColor(Color.blue);
-			g.drawString("Navigate to the town", 65, 730);
+			g.drawString("Navigate to the town", 65, 745);
 			if (bb.isCompleted() == false) {
 				g.setColor(Color.black);
 				g.drawString("Build Bridge", 65, 580);
 			} else {
 				cfl.update(p, x, y, g);
 				g.setColor(Color.blue);
-				g.drawString("Bridge Built!", 65, 715);
+				g.drawString("Bridge Built!", 65, 730);
+				if (cfl.isCompleted() == false) {
+					g.setColor(Color.black);
+					g.drawString("Collect Flowers", 65, 580);
+				} else {
+					g.setColor(Color.blue);
+					g.drawString("Flowers Collected!", 65, 715);
+				}
 			}
 		}
 	}

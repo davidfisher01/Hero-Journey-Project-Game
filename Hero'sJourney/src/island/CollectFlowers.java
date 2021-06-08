@@ -1,5 +1,6 @@
 package island;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -14,12 +15,12 @@ public class CollectFlowers extends Task{
 		flowerOne = false;
 		flowerTwo = false;
 		flowerThree = false;
-		x1 = 0;
-		y1 = 0;
-		x2 = 100;
-		y2 = 100;
-		x3 = 200;
-		y3 = 200;
+		x1 = -881;
+		y1 = -1741;
+		x2 = -511;
+		y2 = -2471;
+		x3 = -2531;
+		y3 = -1771;
 		
 		System.out.println("created task CollectFlowers");
 	}
@@ -45,23 +46,22 @@ public class CollectFlowers extends Task{
 		
 		if (finishedFlowerPicking()) {
 			setCompleted();
-		} else {
-			g.drawString("pic some flowers g", 0, 100);
 		}
+		
 		if (!flowerOne) {
-			g.drawRect(x + x1, y + y1, 50, 50);
+			g.drawRect(x + x1, y + y1, 100, 50);
 		}
 		if (!flowerTwo) {
-			g.drawRect(x + x2, y + y2, 50, 50);
+			g.drawRect(x + x2, y + y2, 100, 50);
 		}
 		if (!flowerThree) {
-			g.drawRect(x + x3, y + y3, 50, 50);
+			g.drawRect(x + x3, y + y3, 100, 50);
 		}
 		
 	}
 	
 	public boolean isCollected(Protagonist p, int x, int y) {
-		Rectangle r = new Rectangle(x, y, 50, 50);// adjust these #'s
+		Rectangle r = new Rectangle(x, y, 100, 50);// adjust these #'s
 		if (r.intersects(p.getRect())) {
 			return true;
 		} else {

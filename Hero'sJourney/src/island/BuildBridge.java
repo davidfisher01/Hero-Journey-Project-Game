@@ -52,7 +52,7 @@ public class BuildBridge extends Task{
 		
 		if (finishedCollecting() && !isCompleted()) {
 			g.setColor(Color.blue);
-			g.drawString("Wood Collected", 65, 595);
+			g.drawString("Wood Collected!", 65, 595);
 		} 
 
 		if (!finishedCollecting()) {
