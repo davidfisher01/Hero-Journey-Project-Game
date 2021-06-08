@@ -1,5 +1,6 @@
 package island;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -10,34 +11,31 @@ import java.util.ArrayList;
 
 public class Checklist {
 	
-	protected ArrayList<Task> tasklist;
+	private WalkToTown wtt;
 	private Image img;
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public Checklist() {
+		wtt = new WalkToTown();
 	}
-	public Checklist(Graphics g) {
-		/*tasklist = new ArrayList<>();
-		Task catchFish = new Task();
-		Task buildBridge = new Task();
-		Task save = new Task();
-		Task collectFlowers = new Task();
-		//WalkToTown getToTown = new WalkToTown(g);
-		tasklist.add(catchFish);
-		tasklist.add(buildBridge);
-		tasklist.add(save);
-		tasklist.add(collectFlowers);
-		//tasklist.add(getToTown);
-		*/
+	
+	public void updateTasks(Protagonist p, int x, int y, Graphics g) {
 		Font stringFont = new Font( "SansSerif", Font.PLAIN, 15 );
 		img = getImage("output-onlinepngtools.png");
 		g.drawImage(img, 0, 500, null);
 		g.setFont(stringFont);
-		g.drawString("Arrive at Blacksmith", 70, 580);
-		g.drawString("Build Bridge", 70, 600);
-		g.drawString("Collect Flowers", 70, 620);
-		g.drawString("Catch Fish", 70, 640);
+		g.setColor(Color.BLACK);
+		
+		wtt.update(p, x, y, g);
+		
+		if (wtt.isCompleted() == false) {
+			g.setColor(Color.black);
+			g.drawString("Navigate to the town", 70, 580);
+		} else {
+			g.setColor(Color.blue);
+			g.drawString("Navigate to the town", 70, 580);
+		}
 	}
+	
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

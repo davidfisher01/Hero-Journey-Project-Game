@@ -22,15 +22,13 @@ public class WalkToTown extends Task{
 	public void update(Protagonist p, int x, int y, Graphics g) {
 		if(isAtTown(p, x, y)) {
 			setCompleted();
-			g.setColor(Color.BLACK);
 			img = getImage("tickmark.png");
 			img = img.getScaledInstance(10, 10, Image.SCALE_DEFAULT);
 			g.drawImage(img, 100, 580, null);
 		}
 
 		if (!isCompleted()) {
-			g.drawString("Navigate up the path to the town to find the blacksmith!!!", 0, 100);
-			g.drawString("" + isCompleted(), 0, 150);
+			g.setColor(Color.green);
 			g.drawRect(x + 300, y - 1000, 1700, 50);
 		}
 	}

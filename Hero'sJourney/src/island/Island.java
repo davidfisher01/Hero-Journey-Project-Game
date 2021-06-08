@@ -30,7 +30,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Protagonist p;
 	Extra bridge;
 	
-	WalkToTown task_wtt;
+	Checklist c;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -91,8 +91,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//call paint methods of objects
 		i.paint(g);
 		bridge.paint(g);
-		
-		//paint player last
 		g.setColor(Color.black);
 		for(int k = 0; k < i.getColSize(); k++) {
 			g.drawRect(i.iCol.get(k).getX(), i.iCol.get(k).getY(), i.iCol.get(k).getWidth(), i.iCol.get(k).getHeight());
@@ -100,6 +98,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		
 		g.setColor(Color.orange);
+		
+		//paint player and checklist last
+		c.updateTasks(p, x, y, g);
 		p.paint(g);
 		
 		//move all objects but the player
@@ -130,10 +131,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}*/
 		
 		g.setColor(Color.red);
-		
-		task_wtt.update(p, x, y, g);
-		
-
 		
 		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
 		g.drawLine(0, midY - 25, width, midY - 25);		//top
@@ -260,7 +257,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
 		bridge = new Extra("bridge.png", -1000, -5000, 500, 500);
 		
-		task_wtt = new WalkToTown();
+		c = new Checklist();
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
 		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
