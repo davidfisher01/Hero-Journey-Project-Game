@@ -6,6 +6,7 @@ import java.net.URL;
 
 public class Task {
 	protected boolean completed;
+	
 	public Task() {
 		completed = false;
 	}
@@ -13,6 +14,11 @@ public class Task {
 	public void setCompleted() {
 		completed = true;
 	}
+	
+	public boolean isCompleted() {
+		return completed;
+	}
+
 	protected Image getImage(String path) {
 		Image tempImage = null;
 		try {

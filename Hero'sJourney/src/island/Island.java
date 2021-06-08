@@ -28,19 +28,14 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	IslandBackground i;
 	Protagonist p;
-	Protagonist ghost;
-	Extra e1;
-	Fisherman fisherman;
+	Extra bridge;
 	
-	Text fishermanText;
-	
-	CollectFlowers test;
-	WalkToTown test2;
-	CatchFish test3;
+	WalkToTown task_wtt;
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
+	
 	public int k = 0;
 	public int x, y;
 	public int x1, x2, y1, y2;
@@ -54,7 +49,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public boolean canShuffle = false;
 	public boolean isLoading = true, isPaused = false;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
-	
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -96,8 +90,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		//call paint methods of objects
 		i.paint(g);
-		e1.paint(g);
-		fisherman.paint(g);
+		bridge.paint(g);
 		
 		//paint player last
 		g.setColor(Color.black);
@@ -112,21 +105,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//move all objects but the player
 		i.setVx(vx);
 		i.setVy(vy);
-		e1.setVx(vx);
-		e1.setVy(vy);
-		fisherman.setVx(vx);
-		fisherman.setVy(vy);
 		
-		//collision
+		//collision; false first, then true after
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
-		
-		
-		p.collisionFalse(e1);
-		p.collisionFalse(fisherman);
-		p.collisionTrue(e1);
-		p.collisionTrue(fisherman);
 		
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
@@ -136,7 +119,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		updateCollision();
 		
 		//protagonist intersecting with king
-		if (fisherman.isIntersectN(p)) {
+		/*if (fisherman.isIntersectN(p)) {
 			if (fishermanText.isPrint()) {
 				fishermanText.print(g, verdanaSmall, width, height/4);
 			} else {
@@ -144,11 +127,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		} else {
 			fishermanText.setPrint(false);
-		}
-		
-		test.update(p, x, y, g);
+		}*/
 		
 		g.setColor(Color.red);
+		
+		task_wtt.update(p, x, y, g);
 		
 
 		
@@ -167,18 +150,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
-		if(k == 0) {
-			test2 = new WalkToTown();
-			k++;
-			test3 = new CatchFish();
-		
-		}
-		Checklist a = new Checklist(g);
-		g.setFont(verdana);
-		test.update(p, x, y, g);
-		test3.update(p, x, y, g);
-		//g.drawRect(x, y, 50, 50);
-		//test2.update(p, x, y, g);
 	}
 	
 	
@@ -285,16 +256,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		System.out.println(width + ", " + height);
 		
-		i = new IslandBackground("IslandFinal.png", width*4, height*5);
-		e1 = new Extra("blacksmith.png", 400, 100, 100, 100);
-		fisherman = new Fisherman("queen.png", 500, 100, 100, 100);
+		i = new IslandBackground("IslandWithoutBridge.png", width*4, height*5);
 		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
-		test = new CollectFlowers();
+		bridge = new Extra("bridge.png", -1000, -5000, 500, 500);
 		
-		fishermanText = new Text("and then he touched with his lips, \r\n" + 
-				"together we became. One Forever. \r\n" + 
-				"And when he took of his shirt \r\n" +
-				"I laughed fo he was an outie", "fisherman.png");
+		task_wtt = new WalkToTown();
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
 		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
@@ -348,7 +314,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		test3.catchFish(e);
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
 			
 			//System.out.println("player: moved south");
@@ -390,11 +355,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		
-		if (fisherman.isIntersectN(p)) {
+		/*if (fisherman.isIntersectN(p)) {
 			if (e.getKeyCode() == 82) {
 				fishermanText.setPrint(true);
 			}
-		}
+		}*/
 		
 		if (e.getKeyCode() == 77 && isPaused) {
 			if (playSong) {
