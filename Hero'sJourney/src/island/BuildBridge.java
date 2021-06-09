@@ -1,6 +1,7 @@
 package island;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -8,7 +9,8 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 public class BuildBridge extends Task{
-	Rectangle r;
+	private Rectangle r;
+	private Text text;
 	private Image bridge;
 	public boolean makeBridge;
 	public boolean one, two, three;
@@ -16,7 +18,7 @@ public class BuildBridge extends Task{
 	public int x2, y2; //x and y of flower two
 	public int x3, y3; // x and y of flower three
 	
-	public BuildBridge() {
+	public BuildBridge(int charSize) {
 		makeBridge = true;
 		one = false;
 		two = false;
@@ -28,10 +30,13 @@ public class BuildBridge extends Task{
 		x3 = 1399;
 		y3 = -261;
 		
+		text = new Text("I need to collect a flower, tree, and some dirt \r\n" +
+							"before the blacksmith can build this bridge.", "bronc.png", charSize);
+		
 		System.out.println("Created task BuildBridge");
 	}
 	
-	public void update(Protagonist p, int x, int y, Graphics g) {
+	public void update(Protagonist p, int x, int y, Graphics g, Font f, int textWidth, int textHeight) {
 		//one
 		if (isCollected(p, x + x1, y + y1, 50, 50) && !one) {
 			one = true;
@@ -69,7 +74,7 @@ public class BuildBridge extends Task{
 		}
 		
 		if (isCollected(p, x + 329, y - 1201, 100, 100) && makeBridge) {
-			g.drawString("NEED TO FINISH COLLECTING WOOD", 500, 500);
+			text.print(g, f, textWidth, textHeight);
 		}
 
 		if (makeBridge) {

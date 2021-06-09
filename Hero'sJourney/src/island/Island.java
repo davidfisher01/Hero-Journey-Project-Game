@@ -28,6 +28,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	
 	IslandBackground i;
 	Protagonist p;
+	Blacksmith blacksmith;
 	Extra bridge;
 	
 	Checklist c;
@@ -46,7 +47,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public int currX;
 	public int currY;
 	public boolean canShuffle = false, playSong = true, skipSong = false;
-	public boolean isLoading = true, isPaused = false;
+	public boolean isLoading = true, isPaused = false, isMove = true;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
 	
 	public void paint(Graphics g) {
@@ -67,7 +68,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//update methods
 		updateBackground();
 		updateVar();
-		updateMusic();
 		
 		//paused screen
 		if (isPaused) {
@@ -92,47 +92,65 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
+		//update if the bridge should be painted or not
+		if (c.isBridgeBuilt()) {
+			bridge.setDoPaint(true);
+		} else {
+			bridge.setDoPaint(false);
+		}
+		
 		//call paint methods of objects
 		i.paint(g);
-		bridge.paint(g);
 		g.setColor(Color.black);
 		for(int k = 0; k < i.getColSize(); k++) {
 			g.drawRect(i.iCol.get(k).getX(), i.iCol.get(k).getY(), i.iCol.get(k).getWidth(), i.iCol.get(k).getHeight());
 			//System.out.println("" + iCol.get(i).getX() + ", " + iCol.get(i).getY() + ", " + iCol.get(i).getWidth() + ", " + iCol.get(i).getHeight());
 		}
-		
 		g.setColor(Color.orange);
+		blacksmith.paint(g);
+		bridge.paint(g);
 		
 		//paint player and checklist last
-		c.updateTasks(p, x, y, g);
+		c.updateTasks(p, x, y, g, verdanaSmall, width, height/4);
 		p.paint(g);
 		
 		//move all objects but the player
 		i.setVx(vx);
 		i.setVy(vy);
+		blacksmith.setVx(vx);
+		blacksmith.setVy(vy);
+		bridge.setVx(vx);
+		bridge.setVy(vy);
 		
 		//collision; false first, then true after
+		p.collisionFalse(blacksmith);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
 		
+		p.collisionTrue(blacksmith);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
 		}
 		
-		
 		updateCollision();
 		
-		//protagonist intersecting with king
-		/*if (fisherman.isIntersectN(p)) {
-			if (fishermanText.isPrint()) {
-				fishermanText.print(g, verdanaSmall, width, height/4);
-			} else {
-				fishermanText.notPrint(g, verdanaSmall, width, height/4);
-			}
+		//protagonist intersecting with blacksmith
+		if (blacksmith.isIntersectN(p)) {
+			blacksmith.print(g, verdanaSmall, width, height/4);
 		} else {
-			fishermanText.setPrint(false);
-		}*/
+			blacksmith.setPrint(false);
+		}
+		
+		//switching between tasks
+		if (blacksmith.didPrint()) {
+			c.settTwo(true);
+		}
+		
+		
+		/* 
+		 * DEBUGGING
+		 */
 		
 		g.setColor(Color.red);
 		
@@ -151,6 +169,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
+
+		//update music last so music doesn't play twice
+		updateMusic();
 	}
 	
 	
@@ -263,10 +284,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		System.out.println(width + ", " + height);
 		
 		i = new IslandBackground("IslandWithoutBridge.png", width*4, height*5);
-		p = new Protagonist("princess.png", midX - 50, midY - 50, 100, 100);
-		bridge = new Extra("bridge.png", -1000, -5000, 500, 500);
+		p = new Protagonist("bronc.png", midX - 50, midY - 50, 100, 100);
+		blacksmith = new Blacksmith("blacksmith.png", 1199, -1306, 100, 100, height/4);
+		bridge = new Extra("newbridge.png", -30, -1175, 2*213, 2*60);
 		
-		c = new Checklist();
+		c = new Checklist(height/4);
 		
 		bg.add(new Music("Gravity.wav", true, "Gravity by Brent Faiyaz"));
 		bg.add(new Music("Blessed.wav", true, "Blessed by Juls"));
@@ -361,11 +383,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		
-		/*if (fisherman.isIntersectN(p)) {
-			if (e.getKeyCode() == 82) {
-				fishermanText.setPrint(true);
-			}
-		}*/
+		if (blacksmith.isIntersectN(p)) {
+			blacksmith.keyPrint(e);
+		}
 		
 		if (e.getKeyCode() == 77 && isPaused) {
 			if (playSong) {

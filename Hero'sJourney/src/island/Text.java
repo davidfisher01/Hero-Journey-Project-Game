@@ -6,16 +6,19 @@ import java.awt.Graphics;
 
 public class Text {
 	private String str;
-	private boolean isPrint;
+	private boolean isPrint, didPrint;
 	private Extra character;
 	private String filename;
-
-	public Text(String str, String filename) {
+	private int charSize;
+	
+	public Text(String str, String filename, int charSize) {
 		this.str = str;
 		isPrint = false;
+		didPrint = false;
 		this.filename = filename;
-
-		character = new Extra(filename, 50, 50, 50, 50);
+		this.charSize = charSize;
+		
+		character = new Extra(filename, 50, 50, charSize, charSize);
 		
 	}
 	
@@ -27,9 +30,11 @@ public class Text {
 		g.setColor(Color.black);
 		drawString(g, str, 0, 0);
 		
-		character.setX(width - 100);
-		character.setY(height - 50);
+		character.setX(width - charSize);
+		character.setY(0);
 		character.paint(g);
+		
+		didPrint = true;
 	}
 	
 	public void notPrint(Graphics g, Font f, int width, int height) {
@@ -58,7 +63,14 @@ public class Text {
 	public boolean isPrint() {
 		return isPrint;
 	}
+	
+	public boolean isDidPrint() {
+		return didPrint;
+	}
 
+	public void setDidPrint(boolean didPrint) {
+		this.didPrint = didPrint;
+	}
 	public void setPrint(boolean isPrint) {
 		this.isPrint = isPrint;
 	}

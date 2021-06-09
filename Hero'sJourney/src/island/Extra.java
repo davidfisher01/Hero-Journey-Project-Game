@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 public class Extra extends Sprite {
 	private int vx, vy;
+	private boolean doPaint;
 
 	public Extra(String fileName, int x, int y, int width, int height) {
 		super(fileName, width, height);
@@ -14,10 +15,15 @@ public class Extra extends Sprite {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		doPaint = true;
 	}
 	
 	public void paint(Graphics g) {
-		super.paint(g);
+		if (doPaint) {
+			super.paint(g);
+		} else {
+			update();
+		}
 		
 		g.setColor(Color.orange);
 		g.drawLine(x, y, x, y + height);					//left
@@ -47,6 +53,14 @@ public class Extra extends Sprite {
 
 	public void setVy(int vy) {
 		this.vy = vy;
+	}
+	
+	public boolean getDoPaint() {
+		return doPaint;
+	}
+	
+	public void setDoPaint(boolean b) {
+		doPaint = b;
 	}
 	
 }
