@@ -16,14 +16,27 @@ public class Blacksmith extends Extra {
 				"Well you need to talk to the queen mother. She can help you out. \r\n" +
 				"But to do that, you need to get across into the town, problem is the bridge is broken. \r\n" +
 				"It's causing the town some issues getting to this side of the island. \r\n" +
+				"I have to walk all the way around to get to the town. \r\n" +
 				"If you repair the bridge, I'm sure the queen will be willing to help you out. \r\n" +
-				"Collect a flower, tree, and some dirt, and I can build a bridge for you! \r\n" +
-				"You'll be able to tell by the green box around the items. Thanks!", "blacksmith.png", charSize);
+				"Collect a flower, tree, and some dirt, and you can build a bridge for us! \r\n" +
+				"You'll be able to tell by the green box around the items. \r\n" +
+				"Once you collect those items, go west on this road and it should appear!", "blacksmith.png", charSize);
+		
+		text.setFinishedStr("Hey, you should talk to the florist if you haven't already. \r\n" +
+				"She'll help you out a lot!");
 	}
 	
 	public void print(Graphics g, Font f, int textWidth, int textHeight) {
 		if (text.isPrint()) {
 			text.print(g, f, textWidth, textHeight);
+		} else {
+			text.notPrint(g, f, textWidth, textHeight);
+		}
+	}
+	
+	public void finishedPrint(Graphics g, Font f, int textWidth, int textHeight) {
+		if (text.isPrint()) {
+			text.finishedPrint(g, f, textWidth, textHeight);
 		} else {
 			text.notPrint(g, f, textWidth, textHeight);
 		}

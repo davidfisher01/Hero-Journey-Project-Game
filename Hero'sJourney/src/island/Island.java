@@ -24,6 +24,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Blacksmith blacksmith;
 	Florist florist;
 	Fisherman fisherman;
+	Queen queen;
+	Extra princess;
 	Extra bridge;
 	
 	Checklist c; //tasks
@@ -41,6 +43,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	public boolean canShuffle = false, playSong = true, skipSong = false;
 	public boolean isLoading = true, isPaused = false, isMove = true;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
+	public boolean isDone = false;
 
 	//position debug
 	public int x1, x2, y1, y2;
@@ -92,12 +95,39 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			return;
 		}
 		
+		//finished screen
+		if (isDone) {
+			g.setFont(verdana);
+			g.setColor(Color.orange);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.black);
+			g.drawString("The game is finished!", 0, 100);
+			g.drawString("Congratulations", 0, 150);
+			
+			g.drawString("Now Playing:", 0, 300);
+			g.drawString(bg.get(songNum).getSongName(), 0, 350);
+			
+			//update music
+			updateMusic();
+			
+			return;
+		}
+		
 		//update if the bridge should be painted or not
 		if (c.isBridgeBuilt()) {
 			bridge.setDoPaint(true);
 			i.removeBridge();
 		} else {
 			bridge.setDoPaint(false);
+		}
+		
+		//update if princess or queen should be painted or not
+		if (c.isCollectedFish()) {
+			princess.setDoPaint(true);
+			queen.setDoPaint(true);
+		} else {
+			princess.setDoPaint(false);
+			queen.setDoPaint(false);
 		}
 		
 		//call paint methods of objects
@@ -110,6 +140,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		blacksmith.paint(g);
 		florist.paint(g);
 		fisherman.paint(g);
+		queen.paint(g);
+		princess.paint(g);
 		bridge.paint(g);
 		
 		//paint player and checklist last
@@ -125,6 +157,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		florist.setVy(vy);
 		fisherman.setVx(vx);
 		fisherman.setVy(vy);
+		queen.setVx(vx);
+		queen.setVy(vy);
+		princess.setVx(vx);
+		princess.setVy(vy);
 		bridge.setVx(vx);
 		bridge.setVy(vy);
 		
@@ -132,6 +168,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collisionFalse(blacksmith);
 		p.collisionFalse(florist);
 		p.collisionFalse(fisherman);
+		p.collisionFalse(queen);
+		p.collisionFalse(princess);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
@@ -140,6 +178,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collisionTrue(blacksmith);
 		p.collisionTrue(florist);
 		p.collisionTrue(fisherman);
+		p.collisionTrue(queen);
+		p.collisionTrue(princess);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
 		}
@@ -149,18 +189,29 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//protagonist talking with people
 		if (blacksmith.isIntersect(p) && c.isCanTalkTwo()) {
 			blacksmith.print(g, verdanaSmall, width, height/4);
+		} else if (blacksmith.isIntersect(p)) {
+			blacksmith.finishedPrint(g, verdanaSmall, width, height/4);
 		} else {
 			blacksmith.setPrint(false);
 		}
 		if (florist.isIntersect(p) && c.isCanTalkThree()) {
 			florist.print(g, verdanaSmall, width, height/4);
+		} else if (florist.isIntersect(p)) {
+			florist.finishedPrint(g, verdanaSmall, width, height/4);
 		} else {
 			florist.setPrint(false);
 		}
 		if (fisherman.isIntersect(p) && c.isCanTalkFour()) {
 			fisherman.print(g, verdanaSmall, width, height/4);
+		} else if (fisherman.isIntersect(p)) {
+			fisherman.finishedPrint(g, verdanaSmall, width, height/4);
 		} else {
 			fisherman.setPrint(false);
+		}
+		if (queen.isIntersect(p) && c.isCollectedFish()) {
+			queen.print(g, verdanaSmall, width, height/4);
+		} else {
+			queen.setPrint(false);
 		}
 		
 		//switching between tasks
@@ -172,6 +223,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		if (fisherman.didPrint()) {
 			c.settFour(true);
+		}
+		
+		//is the game finished?
+		if (!queen.isIntersect(p) && queen.didPrint()) {
+			isDone = true;
 		}
 		
 		//update music last so it doesn't play twice
@@ -253,6 +309,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		blacksmith = new Blacksmith(1199, -1306, 100, 100, height/4);
 		florist = new Florist(-2066, -911, 100, 100, height/4);
 		fisherman = new Fisherman(-2951, -1321, 100, 100, height/4);
+		queen = new Queen(-2366, -2506, 100, 100, height/4);
+		princess = new Extra("princess.png", -2556, -2506, 100, 100);
 		bridge = new Extra("bridge.png", -30, -1175, 2*213, 2*60);
 		
 		c = new Checklist(height/4);
@@ -349,6 +407,10 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//r
 		if (fisherman.isIntersect(p)) {
 			fisherman.keyPrint(e);
+		}
+		//r
+		if (queen.isIntersect(p)) {
+			queen.keyPrint(e);
 		}
 		//c
 		c.catchFish(e, p, x, y);

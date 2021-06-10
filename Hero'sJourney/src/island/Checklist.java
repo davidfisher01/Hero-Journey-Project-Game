@@ -138,10 +138,6 @@ public class Checklist {
 		}
 	}
 	
-	public boolean isFinished() {
-		return tOne == true && tTwo == true && tThree == true && tFour == true;
-	}
-	
 	public boolean istOne() {
 		return tOne;
 	}
@@ -176,6 +172,10 @@ public class Checklist {
 	
 	public boolean isBridgeBuilt() {
 		return bb.isCompleted();
+	}
+	
+	public boolean isCollectedFish() {
+		return cfi.isCompleted();
 	}
 	
 	public boolean isCanTalkTwo() {

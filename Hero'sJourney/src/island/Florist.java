@@ -17,12 +17,24 @@ public class Florist extends Extra {
 				"I play dino ball with her on the weekends. I know, just girl thangs. \r\n" +
 				"Crazy right? Nice to meet you, I'm the town florist! \r\n" +
 				"Anyway, if you collect three flowers to add to my collection, I'll put in a good word for you! \r\n" +
-				"You should be able to tell by the green box around them.", "florist.png", charSize);
+				"You should be able to tell by the cute green box around them. \r\n" +
+				"You don't need to get them back, I have my ways of getting things.", "florist.png", charSize);
+		
+		text.setFinishedStr("Hey, miss me? You should get around to talking with the fisherman east of me. \r\n" +
+				"He knows his way around this town.");
 	}
 	
 	public void print(Graphics g, Font f, int textWidth, int textHeight) {
 		if (text.isPrint()) {
 			text.print(g, f, textWidth, textHeight);
+		} else {
+			text.notPrint(g, f, textWidth, textHeight);
+		}
+	}
+	
+	public void finishedPrint(Graphics g, Font f, int textWidth, int textHeight) {
+		if (text.isPrint()) {
+			text.finishedPrint(g, f, textWidth, textHeight);
 		} else {
 			text.notPrint(g, f, textWidth, textHeight);
 		}
