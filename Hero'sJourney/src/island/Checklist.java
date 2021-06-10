@@ -5,12 +5,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class Checklist {
-	
 	private WalkToTown wtt;
 	private BuildBridge bb;
 	private CollectFlowers cfl;
@@ -24,7 +24,7 @@ public class Checklist {
 		wtt = new WalkToTown();
 		bb = new BuildBridge(charSize);
 		cfl = new CollectFlowers();
-		cfi = new CatchFish();
+		cfi = new CatchFish(charSize);
 		
 		tOne = true;
 		tTwo = false;
@@ -35,7 +35,7 @@ public class Checklist {
 		canTalkThree = false;
 		canTalkFour = false;
 		
-		stringFont = new Font( "SansSerif", Font.PLAIN, 15);
+		stringFont = new Font("SansSerif", Font.PLAIN, 15);
 	}
 	
 	public void updateTasks(Protagonist p, int x, int y, Graphics g, Font f, int textWidth, int textHeight) {
@@ -56,7 +56,7 @@ public class Checklist {
 		}
 		
 		if (tFour) {
-			taskFour(p, x, y, g);
+			taskFour(p, x, y, g, f, textWidth, textHeight);
 		}
 	}
 	
@@ -109,17 +109,29 @@ public class Checklist {
 			tThree = false;
 			canTalkThree = false;
 			canTalkFour = true;
-			tFour = true;
 		}
 	}
 	
 	//catch the fish
-	private void taskFour(Protagonist p, int x, int y, Graphics g) {
+	private void taskFour(Protagonist p, int x, int y, Graphics g, Font f, int textWidth, int textHeight) {
+		cfi.update(p, x, y, g, f, textWidth, textHeight);
+		g.setFont(stringFont);
 		
+		if (cfi.isCompleted() == false) {
+			g.setColor(Color.black);
+			g.drawString("Catch Fish", 65, 580);
+		} else {
+			g.setColor(Color.blue);
+			g.drawString("Fish Caught", 65, 700);
+			
+			tFour = false;
+			canTalkFour = false;
+		}
 	}
 	
-
-	
+	public void catchFish(KeyEvent e, Protagonist p, int x, int y) {
+		cfi.catchFish(e, p, x, y);
+	}
 	public boolean istOne() {
 		return tOne;
 	}

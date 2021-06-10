@@ -14,7 +14,7 @@ public class Florist extends Extra {
 		text = new Text("Hey sir! The blacksmith told me you were from around here. \r\n" + 
 				"He said you were stranded and needed the queen mother's help. \r\n" + 
 				"Probably because she's the ONLY pterodactyl in the WHOLE island. \r\n" +
-				"I play dino ball with her on the weekends. I know right! Just girl thangs. \r\n" +
+				"I play dino ball with her on the weekends. I know, just girl thangs. \r\n" +
 				"Crazy right? Nice to meet you, I'm the town florist! \r\n" +
 				"Anyway, if you collect three flowers to add to my collection, I'll put in a good word for you! \r\n" +
 				"You should be able to tell by the green box around them.", "florist.png", charSize);

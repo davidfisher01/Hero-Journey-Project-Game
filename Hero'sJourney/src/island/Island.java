@@ -19,7 +19,6 @@ import javax.swing.Timer;
 import java.awt.Font;
 
 public class Island extends JPanel implements ActionListener, KeyListener, MouseListener {
-	
 	//handles drawing animation
 	Timer animationTimer;
 	//Create a JFrame Object with a title bar text
@@ -30,6 +29,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Protagonist p;
 	Blacksmith blacksmith;
 	Florist florist;
+	Fisherman fisherman;
 	Extra bridge;
 	
 	Checklist c;
@@ -113,6 +113,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.setColor(Color.orange);
 		blacksmith.paint(g);
 		florist.paint(g);
+		fisherman.paint(g);
 		bridge.paint(g);
 		
 		//paint player and checklist last
@@ -126,18 +127,22 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		blacksmith.setVy(vy);
 		florist.setVx(vx);
 		florist.setVy(vy);
+		fisherman.setVx(vx);
+		fisherman.setVy(vy);
 		bridge.setVx(vx);
 		bridge.setVy(vy);
 		
 		//collision; false first, then true after
 		p.collisionFalse(blacksmith);
 		p.collisionFalse(florist);
+		p.collisionFalse(fisherman);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
 		
 		p.collisionTrue(blacksmith);
 		p.collisionTrue(florist);
+		p.collisionTrue(fisherman);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
 		}
@@ -157,12 +162,21 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			florist.setPrint(false);
 		}
 		
+		if (fisherman.isIntersect(p) && c.isCanTalkFour()) {
+			fisherman.print(g, verdanaSmall, width, height/4);
+		} else {
+			fisherman.setPrint(false);
+		}
+		
 		//switching between tasks
 		if (blacksmith.didPrint()) {
 			c.settTwo(true);
 		}
 		if (florist.didPrint()) {
 			c.settThree(true);
+		}
+		if (fisherman.didPrint()) {
+			c.settFour(true);
 		}
 		
 		
@@ -305,6 +319,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p = new Protagonist("bronc.png", midX - 50, midY - 50, 100, 100);
 		blacksmith = new Blacksmith(1199, -1306, 100, 100, height/4);
 		florist = new Florist(-2066, -911, 100, 100, height/4);
+		fisherman = new Fisherman(-2951, -1356, 100, 100, height/4);
 		bridge = new Extra("newbridge.png", -30, -1175, 2*213, 2*60);
 		
 		c = new Checklist(height/4);
@@ -409,6 +424,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (florist.isIntersect(p) ) {
 			florist.keyPrint(e);
 		}
+		
+		if (fisherman.isIntersect(p)) {
+			fisherman.keyPrint(e);
+		}
+		
+		c.catchFish(e, p, x, y);
 		
 		if (e.getKeyCode() == 77 && isPaused) {
 			if (playSong) {
