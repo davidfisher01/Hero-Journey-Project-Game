@@ -31,7 +31,7 @@ public class BuildBridge extends Task{
 		y3 = -261;
 		
 		text = new Text("I need to collect a flower, tree, and some dirt \r\n" +
-							"before the blacksmith can build this bridge.", "bronc.png", charSize);
+							"before I can build this bridge for the blacksmith.", "bronc.png", charSize);
 		
 		System.out.println("Created task BuildBridge");
 	}

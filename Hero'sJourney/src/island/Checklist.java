@@ -17,6 +17,7 @@ public class Checklist {
 	private CatchFish cfi;
 	private Image img;
 	private boolean tOne, tTwo, tThree, tFour;
+	private boolean canTalkTwo, canTalkThree, canTalkFour;
 	private Font stringFont;
 
 	public Checklist(int charSize) {
@@ -29,6 +30,10 @@ public class Checklist {
 		tTwo = false;
 		tThree = false;
 		tFour = false;
+		
+		canTalkTwo = true;
+		canTalkThree = false;
+		canTalkFour = false;
 		
 		stringFont = new Font( "SansSerif", Font.PLAIN, 15);
 	}
@@ -84,7 +89,8 @@ public class Checklist {
 			g.drawString("Bridge Built!", 65, 730);
 			
 			tTwo = false;
-			tThree = true;
+			canTalkTwo = false;
+			canTalkThree = true;
 		}
 	}
 
@@ -101,6 +107,8 @@ public class Checklist {
 			g.drawString("Flowers Collected!", 65, 715);
 			
 			tThree = false;
+			canTalkThree = false;
+			canTalkFour = true;
 			tFour = true;
 		}
 	}
@@ -148,6 +156,54 @@ public class Checklist {
 		return bb.isCompleted();
 	}
 	
+	public boolean isCanTalkTwo() {
+		return canTalkTwo;
+	}
+
+	public void setCanTalkTwo(boolean canTalkTwo) {
+		this.canTalkTwo = canTalkTwo;
+	}
+
+	public boolean isCanTalkThree() {
+		return canTalkThree;
+	}
+
+	public void setCanTalkThree(boolean canTalkThree) {
+		this.canTalkThree = canTalkThree;
+	}
+
+	public boolean isCanTalkFour() {
+		return canTalkFour;
+	}
+
+	public void setCanTalkFour(boolean canTalkFour) {
+		this.canTalkFour = canTalkFour;
+	}
+
+	public WalkToTown getWtt() {
+		return wtt;
+	}
+
+	public BuildBridge getBb() {
+		return bb;
+	}
+
+	public CollectFlowers getCfl() {
+		return cfl;
+	}
+
+	public CatchFish getCfi() {
+		return cfi;
+	}
+
+	public Image getImg() {
+		return img;
+	}
+
+	public Font getStringFont() {
+		return stringFont;
+	}
+
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

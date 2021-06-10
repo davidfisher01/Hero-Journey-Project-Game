@@ -29,6 +29,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	IslandBackground i;
 	Protagonist p;
 	Blacksmith blacksmith;
+	Florist florist;
 	Extra bridge;
 	
 	Checklist c;
@@ -89,6 +90,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 			g.drawString("press n to skip song", 0, 550);
 			
+			//update music
+			updateMusic();
+			
 			return;
 		}
 		
@@ -108,6 +112,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		g.setColor(Color.orange);
 		blacksmith.paint(g);
+		florist.paint(g);
 		bridge.paint(g);
 		
 		//paint player and checklist last
@@ -119,16 +124,20 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		i.setVy(vy);
 		blacksmith.setVx(vx);
 		blacksmith.setVy(vy);
+		florist.setVx(vx);
+		florist.setVy(vy);
 		bridge.setVx(vx);
 		bridge.setVy(vy);
 		
 		//collision; false first, then true after
 		p.collisionFalse(blacksmith);
+		p.collisionFalse(florist);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
 		
 		p.collisionTrue(blacksmith);
+		p.collisionTrue(florist);
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
 		}
@@ -136,15 +145,24 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		updateCollision();
 		
 		//protagonist intersecting with blacksmith
-		if (blacksmith.isIntersectN(p)) {
+		if (blacksmith.isIntersect(p) && c.isCanTalkTwo()) {
 			blacksmith.print(g, verdanaSmall, width, height/4);
 		} else {
 			blacksmith.setPrint(false);
 		}
 		
+		if (florist.isIntersect(p) && c.isCanTalkThree()) {
+			florist.print(g, verdanaSmall, width, height/4);
+		} else {
+			florist.setPrint(false);
+		}
+		
 		//switching between tasks
 		if (blacksmith.didPrint()) {
 			c.settTwo(true);
+		}
+		if (florist.didPrint()) {
+			c.settThree(true);
 		}
 		
 		
@@ -169,8 +187,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
 		
 		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
-
-		//update music last so music doesn't play twice
+	
+		//update music last so it doesn't play twice
 		updateMusic();
 	}
 	
@@ -285,7 +303,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		i = new IslandBackground("IslandWithoutBridge.png", width*4, height*5);
 		p = new Protagonist("bronc.png", midX - 50, midY - 50, 100, 100);
-		blacksmith = new Blacksmith("blacksmith.png", 1199, -1306, 100, 100, height/4);
+		blacksmith = new Blacksmith(1199, -1306, 100, 100, height/4);
+		florist = new Florist(-2066, -911, 100, 100, height/4);
 		bridge = new Extra("newbridge.png", -30, -1175, 2*213, 2*60);
 		
 		c = new Checklist(height/4);
@@ -383,8 +402,12 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			}
 		}
 		
-		if (blacksmith.isIntersectN(p)) {
+		if (blacksmith.isIntersect(p)) {
 			blacksmith.keyPrint(e);
+		}
+		
+		if (florist.isIntersect(p) ) {
+			florist.keyPrint(e);
 		}
 		
 		if (e.getKeyCode() == 77 && isPaused) {
