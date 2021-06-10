@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class IslandBackground extends Sprite{
 	private int vx, vy;
 	public ArrayList<ColRects> iCol = new ArrayList<ColRects>();
+	private boolean isBridgeRemoved;
 
 	public IslandBackground(String fileName, int width, int height) {
 		super(fileName, width, height);
@@ -12,6 +13,7 @@ public class IslandBackground extends Sprite{
 		vy = -4200;
 		this.width = width;
 		this.height = height;
+		isBridgeRemoved = false;
 		
 		//trees
 		iCol.add(new ColRects(464, -131, 250, 200));
@@ -22,10 +24,10 @@ public class IslandBackground extends Sprite{
 		iCol.add(new ColRects(1299, -906, 250, 200));
 		iCol.add(new ColRects(779, -1041, 250, 200));
 		iCol.add(new ColRects(1509, -2541, 250, 200));
-		iCol.add(new ColRects(-1546, -2476, 250, 200));
-		iCol.add(new ColRects(-1751, -2611, 250, 200));
-		iCol.add(new ColRects(-1826, -2261, 250, 200));
-		iCol.add(new ColRects(-2056, -2361, 250, 200));
+		iCol.add(new ColRects(-1501, -2496, 200, 180));
+		iCol.add(new ColRects(-1716, -2646, 215, 200));
+		iCol.add(new ColRects(-1826, -2261, 150, 140));
+		iCol.add(new ColRects(-2071, -2336, 245, 170));
 		iCol.add(new ColRects(-2321, -2371, 250, 200));
 		iCol.add(new ColRects(-2581, -2371, 250, 200));
 		iCol.add(new ColRects(-2841, -2506, 250, 200));
@@ -39,7 +41,6 @@ public class IslandBackground extends Sprite{
 		//beach tree
 		iCol.add(new ColRects(-1651, 249, 140, 125));
 		iCol.add(new ColRects(-2836, 114, 140, 125));
-		
 		
 		//houses
 		iCol.add(new ColRects(-2806, -1081, 555, 280));
@@ -75,8 +76,8 @@ public class IslandBackground extends Sprite{
 		iCol.add(new ColRects(-3726, -3471, 2645, 155));
 		iCol.add(new ColRects(-3906, -3381, 260, 1560));
 		iCol.add(new ColRects(-3781, -1946, 765, 200));
-		iCol.add(new ColRects(-3176, -1946, 155, 705)); //this is the one 3286, 1181
-		iCol.add(new ColRects(-3421, -1386, 350, 145)); //this is the one
+		iCol.add(new ColRects(-3176, -1946, 155, 705));
+		iCol.add(new ColRects(-3421, -1386, 350, 145));
 		iCol.add(new ColRects(-3541, -1321, 215, 380));
 		iCol.add(new ColRects(-3496, -1056, 480, 120));
 		iCol.add(new ColRects(-3166, -1066, 160, 1820));
@@ -84,10 +85,15 @@ public class IslandBackground extends Sprite{
 		iCol.add(new ColRects(-1116, -446, 210, 930));
 		iCol.add(new ColRects(-906, -441, 1200, 145));
 		iCol.add(new ColRects(79, -1081, 215, 740));
-		iCol.add(new ColRects(69, -1486, 220, 280));
+		iCol.add(new ColRects(69, -1486, 220, 270));
 		iCol.add(new ColRects(-446, -2056, 905, 550));
-		iCol.add(new ColRects(479, -1911, 180, 190));
+		iCol.add(new ColRects(479, -1911, 180, 400));
 		iCol.add(new ColRects(624, -2056, 540, 425));
+		iCol.add(new ColRects(-1171, 484, 340, 120));
+		
+		//final two rectangle for removing: bridge and top of pass
+		iCol.add(new ColRects(69, -1216, 225, 145)); //bridge
+		iCol.add(new ColRects(759, -2606, 180, 550)); //top of pass
 	}
 	
 	public void update() {
@@ -95,6 +101,14 @@ public class IslandBackground extends Sprite{
 		y += vy;
 		
 		tx.setToTranslation(x, y);
+	}
+	
+	public void removeBridge() {
+		if (!isBridgeRemoved) {
+			iCol.remove(iCol.size() - 1);
+			iCol.remove(iCol.size() - 1);
+			isBridgeRemoved = true;
+		}
 	}
 
 	public int getVx() {

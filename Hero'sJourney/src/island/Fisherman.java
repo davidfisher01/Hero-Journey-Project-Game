@@ -34,9 +34,9 @@ public class Fisherman extends Extra {
 		}
 	}
 	
-	//if the protagonist intersects with the west or south rectangle
+	//if the protagonist intersects with the north or south rectangle
 	public boolean isIntersect(Protagonist p) {
-		return p.westRect().intersects(getRect()) || p.southRect().intersects(getRect());
+		return p.northRect().intersects(getRect()) || p.southRect().intersects(getRect());
 	}
 
 	public void setPrint(boolean b) {

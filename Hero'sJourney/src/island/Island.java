@@ -1,9 +1,7 @@
 package island;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,16 +12,12 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 import java.awt.Font;
 
 public class Island extends JPanel implements ActionListener, KeyListener, MouseListener {
-	//handles drawing animation
-	Timer animationTimer;
-	//Create a JFrame Object with a title bar text
-	JFrame f = new JFrame("Dino Crossing");
-	JTextArea t;
+	Timer animationTimer; //handles drawing animation
+	JFrame f = new JFrame("Dino Crossing"); //Create a JFrame Object with a title bar text
 	
 	IslandBackground i;
 	Protagonist p;
@@ -32,24 +26,26 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Fisherman fisherman;
 	Extra bridge;
 	
-	Checklist c;
+	Checklist c; //tasks
 	
 	ArrayList<Music> bg = new ArrayList<Music>();
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
 	Font verdanaSmall = new Font("Verdana", Font.BOLD, 20);
-	
-	public int k = 0;
+
+	//variables
 	public int x, y;
-	public int x1, x2, y1, y2;
 	public int vx, vy;
 	public int midX, midY;
 	public int width, height;
 	public int songNum;
-	public int currX;
-	public int currY;
 	public boolean canShuffle = false, playSong = true, skipSong = false;
 	public boolean isLoading = true, isPaused = false, isMove = true;
 	public boolean isMoveN, isMoveS, isMoveW, isMoveE;
+
+	//position debug
+	public int x1, x2, y1, y2;
+	public int currX;
+	public int currY;
 	
 	public void paint(Graphics g) {
 		//calling this line ensures the frame is redrawn
@@ -99,6 +95,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//update if the bridge should be painted or not
 		if (c.isBridgeBuilt()) {
 			bridge.setDoPaint(true);
+			i.removeBridge();
 		} else {
 			bridge.setDoPaint(false);
 		}
@@ -108,7 +105,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		g.setColor(Color.black);
 		for(int k = 0; k < i.getColSize(); k++) {
 			g.drawRect(i.iCol.get(k).getX(), i.iCol.get(k).getY(), i.iCol.get(k).getWidth(), i.iCol.get(k).getHeight());
-			//System.out.println("" + iCol.get(i).getX() + ", " + iCol.get(i).getY() + ", " + iCol.get(i).getWidth() + ", " + iCol.get(i).getHeight());
 		}
 		g.setColor(Color.orange);
 		blacksmith.paint(g);
@@ -132,7 +128,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		bridge.setVx(vx);
 		bridge.setVy(vy);
 		
-		//collision; false first, then true after
+		//collision; false first
 		p.collisionFalse(blacksmith);
 		p.collisionFalse(florist);
 		p.collisionFalse(fisherman);
@@ -140,6 +136,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			p.collisionFalse(i.iCol.get(j));
 		}
 		
+		//collision; then true after
 		p.collisionTrue(blacksmith);
 		p.collisionTrue(florist);
 		p.collisionTrue(fisherman);
@@ -149,19 +146,17 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		updateCollision();
 		
-		//protagonist intersecting with blacksmith
+		//protagonist talking with people
 		if (blacksmith.isIntersect(p) && c.isCanTalkTwo()) {
 			blacksmith.print(g, verdanaSmall, width, height/4);
 		} else {
 			blacksmith.setPrint(false);
 		}
-		
 		if (florist.isIntersect(p) && c.isCanTalkThree()) {
 			florist.print(g, verdanaSmall, width, height/4);
 		} else {
 			florist.setPrint(false);
 		}
-		
 		if (fisherman.isIntersect(p) && c.isCanTalkFour()) {
 			fisherman.print(g, verdanaSmall, width, height/4);
 		} else {
@@ -179,73 +174,31 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			c.settFour(true);
 		}
 		
-		
-		/* 
-		 * DEBUGGING
-		 */
-		
-		g.setColor(Color.red);
-		
-		/*g.drawLine(midX - 25, 0, midX - 25, height);	//left
-		g.drawLine(0, midY - 25, width, midY - 25);		//top
-		g.drawLine(midX + 25, 0, midX+25, height);		//right
-		g.drawLine(0, midY+25, width, midY+25);			//bot
-		g.drawLine(midX-37, 0, midX-37, height);		//draw line down middle
-		g.drawLine(0, midY-37, width, midY-37);			//draw line across middle
-		g.drawLine(midX+37, 0, midX+37, height);		//draw line down middle
-		g.drawLine(0, midY+37, width, midY+37);			//draw line across middle*/
-		
-		//g.setColor(Color.white);
-		//g.setFont(verdana);
-		//g.fillRect(0, 0, f.getWidth(), f.getHeight()/4);
-		//g.drawString("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie", 0, 0);
-		
-		//displayText("and then he touched with his lips, together we became. One Forever. And when he took of his shirt I laughed fo he was an outie");
-	
 		//update music last so it doesn't play twice
 		updateMusic();
 	}
 	
-	
-	public void displayText(String c) {
-		t = new JTextArea();
-    	f.add(t);
-    	t.setText(c);
-    	t.setFont(new Font("Serif", Font.PLAIN, 20));
-    	t.setPreferredSize(new Dimension(250,250));
-    	t.setLineWrap(true);
-    	t.setWrapStyleWord(true);
-    	//t.setBackground(Color.white);
-    	t.setCaretColor(t.getBackground());
-    	t.getCaret().setBlinkRate(0);
-    	t.setEditable(false);
-    	t.setVisible(true);
-    	//f.pack();
-    	//setSize(300, 300);
-    }
-	
 	public void updateMusic() {
-		if (canShuffle) {
-			if (bg.get(songNum).isStopped()) {
-				int temp;
-				
-				do {
-					temp = (int) (Math.random()*bg.size());
-				} while (songNum == temp);
-				
-				songNum = temp;
-				System.out.println("NEXT SONG: " + songNum);
-				bg.get(songNum).play();
-			}
+		if (canShuffle && bg.get(songNum).isStopped()) {
+			int temp;
+			
+			do {
+				temp = (int) (Math.random()*bg.size());
+			} while (songNum == temp);
+			
+			songNum = temp;
+			System.out.println("NEXT SONG: " + songNum);
+			bg.get(songNum).play();
+			
 		}
 		
-		if (!playSong) {
+		if (!playSong) { //muting the song
 			bg.get(songNum).setVolume(0);
 		} else {
 			bg.get(songNum).setVolume(1);
 		}
 		
-		if (skipSong) {
+		if (skipSong) { //skipping the song
 			bg.get(songNum).stop();
 			skipSong = false;
 		}
@@ -259,8 +212,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		currX -= vx;
 		currY -= vy;
-		
-		
 	}
 	
 	public void updateCollision() {
@@ -276,50 +227,32 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if (p.isColW() && isMoveW) {
 			vx = 0;
 		}
-		
 	}
 	
 	/* constructor for MainPain class */
 	public Island() {
-		
-		//Set the size of the window
 		f.setSize(1938, 1048); //width and height
-
-		f.addKeyListener(this);
-		
-		//f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		f.addKeyListener(this); //listen to keyboard
 		f.setUndecorated(false);
-		
-		//set default action for x button
-		//without this, your code will run behind the scenes until
-		//you force exit
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//add this panel to the JFrame
-		//allows connection with "drawing"
-		f.add(this);
-		
-		//setup animation timer
-		animationTimer = new Timer(16, this);
-		
-		//do not forget to start the timer
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //set default action for x button
+		f.add(this); //add this panel to the JFrame, allows connection with "drawing"
+		animationTimer = new Timer(16, this); //setup and startanimation timer
 		animationTimer.start();
-		
 		f.setVisible(true);
 			
-		//create all instnace variable objects in the constructorr
+		//set variables
 		midX = f.getWidth()/2;
 		midY = f.getHeight()/2;
 		width = f.getWidth();
 		height = f.getHeight();
 		
-		System.out.println(width + ", " + height);
+		System.out.println("Frame: " + width + ", " + height);
 		
 		i = new IslandBackground("IslandWithoutBridge.png", width*4, height*5);
 		p = new Protagonist("bronc.png", midX - 50, midY - 50, 100, 100);
 		blacksmith = new Blacksmith(1199, -1306, 100, 100, height/4);
 		florist = new Florist(-2066, -911, 100, 100, height/4);
-		fisherman = new Fisherman(-2951, -1356, 100, 100, height/4);
+		fisherman = new Fisherman(-2951, -1321, 100, 100, height/4);
 		bridge = new Extra("newbridge.png", -30, -1175, 2*213, 2*60);
 		
 		c = new Checklist(height/4);
@@ -363,74 +296,64 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	/* this method is invoked/called by the titmer */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
-		//call the frame to refresh
-		//recall that actitonPerformed is called by the
-		//timer object every 16ms
-		repaint();
-		
+		repaint(); //call the frame to refresh by the timer object every 16ms
 	}
-	
-	
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		//s/down
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
-			
-			//System.out.println("player: moved south");
 			if (!p.isColS()) {
 				vy = -5;
 				isMoveS = true;
 			}
 		}
+		//w/up
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
-			
-			//System.out.println("player: moved north");
 			if (!p.isColN()) {
 				vy = 5;
 				isMoveN = true;
 			}
 		}
+		//d/right
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
-			
-			//System.out.println("player: moved east");
 			if (!p.isColE()) {
 				vx = -5;
 				isMoveE = true;
 			}
 		}
+		//a/left
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
-			
-			//System.out.println("player: moved west");
 			if (!p.isColW()) {
 				vx = 5;
 				isMoveW = true;
 			}
 		}
+		//esc
 		if (e.getKeyCode() == 27 ) {
-			
 			if (isPaused) {
 				isPaused = false;
 			} else {
 				isPaused = true;
 			}
 		}
-		
+		//r
 		if (blacksmith.isIntersect(p)) {
 			blacksmith.keyPrint(e);
 		}
-		
+		//r
 		if (florist.isIntersect(p) ) {
 			florist.keyPrint(e);
 		}
-		
+		//r
 		if (fisherman.isIntersect(p)) {
 			fisherman.keyPrint(e);
 		}
-		
+		//c
 		c.catchFish(e, p, x, y);
 		
+		//m
 		if (e.getKeyCode() == 77 && isPaused) {
 			if (playSong) {
 				playSong = false;
@@ -438,6 +361,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 				playSong = true;
 			}
 		}
+		//n
 		if (e.getKeyCode() == 78 && isPaused) {
 			if (skipSong) {
 				skipSong = false;
@@ -459,34 +383,29 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		if(e.getKeyCode() == 79) {
 			x1 = currX;
 			y1 = currY;
-			
-			
 		}
-		
 	}
 	
-	
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
+		//s/down
 		if (e.getKeyCode() == 83 || e.getKeyCode() == 40) {
-			//System.out.println("player: stopped south");
 			vy = 0;
 			isMoveS = false;
 		}
+		//w/up
 		if (e.getKeyCode() == 87 || e.getKeyCode() == 38) {
-			//System.out.println("player: stopped north");
 			vy = 0;
 			isMoveN = false;
 		}
+		//d/right
 		if (e.getKeyCode() == 68 || e.getKeyCode() == 39) {
-			//System.out.println("player: stopped east");
 			vx = 0;
 			isMoveE = false;
 		}
+		//a/left
 		if (e.getKeyCode() == 65 || e.getKeyCode() == 37) {
-			//System.out.println("player: stopped west");
 			vx = 0;
 			isMoveW = false;
 		}

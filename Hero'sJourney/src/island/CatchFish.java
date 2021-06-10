@@ -28,7 +28,7 @@ public class CatchFish extends Task {
 			g.setColor(Color.black);
 			g.setFont(stringFont);
 			g.drawString("I have caught " + fishCaught + " fish.", 65, 595);
-		} else {
+		} else if (!isCompleted()) {
 			g.setColor(Color.black);
 			g.drawString("Go to the Pier", 65, 595);
 			g.drawRect(x - 3286, y - 1181, 100, 100);
