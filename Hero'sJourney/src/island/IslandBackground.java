@@ -7,8 +7,8 @@ public class IslandBackground extends Sprite{
 	public ArrayList<ColRects> iCol = new ArrayList<ColRects>();
 	private boolean isBridgeRemoved;
 
-	public IslandBackground(String fileName, int width, int height) {
-		super(fileName, width, height);
+	public IslandBackground(int width, int height) {
+		super("IslandFinal.png", width, height);
 		vx = -4700;
 		vy = -4200;
 		this.width = width;

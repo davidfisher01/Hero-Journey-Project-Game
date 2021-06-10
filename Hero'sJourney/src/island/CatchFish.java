@@ -11,11 +11,13 @@ public class CatchFish extends Task {
 	private boolean caught;
 	private Text text;
 	private Font stringFont;
+	private Music sfx;
 	
 	public CatchFish(int charSize) {
 		fishCaught = 0;
 		caught = false;
 		stringFont = new Font( "SansSerif", Font.PLAIN, 15);
+		sfx = new Music("WaterSplash.wav", false, "water sound");
 		text = new Text("Wow I remember something about my father teaching me to fish \r\n" +
 				"I have to press c to fish, and I should hear a noise.", "bronc.png", charSize);
 		
@@ -42,6 +44,7 @@ public class CatchFish extends Task {
 	public void catchFish(KeyEvent e, Protagonist p, int x, int y) {
 		if(e.getKeyCode() == 67 && isAtPier(p, x, y)) {
 			fishCaught++;
+			sfx.play();
 		}
 	}
 	

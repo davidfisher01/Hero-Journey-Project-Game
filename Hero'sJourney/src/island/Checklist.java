@@ -39,20 +39,32 @@ public class Checklist {
 	}
 	
 	public void updateTasks(Protagonist p, int x, int y, Graphics g, Font f, int textWidth, int textHeight) {
-		img = getImage("output-onlinepngtools.png");
+		img = getImage("clipboard.png");
 		g.drawImage(img, 0, 500, null);
 		g.setFont(stringFont);
 		
 		if (tOne) {
 			taskOne(p, x, y, g);
 		}
+		if (wtt.isCompleted()) {
+			g.setColor(Color.blue);
+			g.drawString("Found the town!", 65, 745);
+		}
 		
 		if (tTwo) {
 			taskTwo(p, x, y, g, f, textWidth, textHeight);
 		}
+		if (bb.isCompleted()) {
+			g.setColor(Color.blue);
+			g.drawString("Bridge Built!", 65, 730);
+		}
 		
 		if (tThree) {
 			taskThree(p, x, y, g);
+		}
+		if (cfl.isCompleted()) {
+			g.setColor(Color.blue);
+			g.drawString("Flowers Collected!", 65, 715);
 		}
 		
 		if (tFour) {
@@ -69,9 +81,6 @@ public class Checklist {
 			g.setColor(Color.black);
 			g.drawString("Navigate to the town", 65, 580);
 		} else {
-			g.setColor(Color.blue);
-			g.drawString("Found the town!", 65, 745);
-			
 			tOne = false;
 		}
 	}
@@ -85,9 +94,6 @@ public class Checklist {
 			g.setColor(Color.black);
 			g.drawString("Build Bridge", 65, 580);
 		} else {
-			g.setColor(Color.blue);
-			g.drawString("Bridge Built!", 65, 730);
-			
 			tTwo = false;
 			canTalkTwo = false;
 			canTalkThree = true;
@@ -103,9 +109,6 @@ public class Checklist {
 			g.setColor(Color.black);
 			g.drawString("Collect Flowers", 65, 580);
 		} else {
-			g.setColor(Color.blue);
-			g.drawString("Flowers Collected!", 65, 715);
-			
 			tThree = false;
 			canTalkThree = false;
 			canTalkFour = true;
@@ -130,8 +133,15 @@ public class Checklist {
 	}
 	
 	public void catchFish(KeyEvent e, Protagonist p, int x, int y) {
-		cfi.catchFish(e, p, x, y);
+		if (tFour) {
+			cfi.catchFish(e, p, x, y);
+		}
 	}
+	
+	public boolean isFinished() {
+		return tOne == true && tTwo == true && tThree == true && tFour == true;
+	}
+	
 	public boolean istOne() {
 		return tOne;
 	}
