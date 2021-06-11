@@ -6,16 +6,18 @@ import java.awt.Graphics;
 
 public class Text {
 	private String str;
-	private boolean isPrint;
+	private String finishedstr;
+	private boolean isPrint, didPrint;
 	private Extra character;
-	private String filename;
-
-	public Text(String str, String filename) {
+	private int charSize;
+	
+	public Text(String str, String filename, int charSize) {
 		this.str = str;
 		isPrint = false;
-		this.filename = filename;
-
-		character = new Extra(filename, 50, 50, 50, 50);
+		didPrint = false;
+		this.charSize = charSize;
+		
+		character = new Extra(filename, 50, 50, charSize, charSize);
 		
 	}
 	
@@ -27,9 +29,11 @@ public class Text {
 		g.setColor(Color.black);
 		drawString(g, str, 0, 0);
 		
-		character.setX(width - 100);
-		character.setY(height - 50);
+		character.setX(width - charSize);
+		character.setY(0);
 		character.paint(g);
+		
+		didPrint = true;
 	}
 	
 	public void notPrint(Graphics g, Font f, int width, int height) {
@@ -42,9 +46,30 @@ public class Text {
 		
 	}
 	
+	public void finishedPrint(Graphics g, Font f, int width, int height) {
+		//TODO add speaking capabilities specific to ninjas
+		g.setColor(Color.orange);
+		g.setFont(f);
+		g.fillRect(0, 0, width, height);
+		g.setColor(Color.black);
+		drawString(g, finishedstr, 0, 0);
+		
+		character.setX(width - charSize);
+		character.setY(0);
+		character.paint(g);
+	}
+	
 	public void drawString(Graphics g, String text, int x, int y) {
 	    for (String line : text.split("\n"))
 	        g.drawString(line, x, y += g.getFontMetrics().getHeight());
+	}
+	
+	public String getFinishedStr() {
+		return finishedstr;
+	}
+
+	public void setFinishedStr(String str) {
+		finishedstr = str;
 	}
 
 	public String getStr() {
@@ -58,7 +83,14 @@ public class Text {
 	public boolean isPrint() {
 		return isPrint;
 	}
+	
+	public boolean isDidPrint() {
+		return didPrint;
+	}
 
+	public void setDidPrint(boolean didPrint) {
+		this.didPrint = didPrint;
+	}
 	public void setPrint(boolean isPrint) {
 		this.isPrint = isPrint;
 	}

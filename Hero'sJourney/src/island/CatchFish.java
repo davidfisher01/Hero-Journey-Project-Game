@@ -1,38 +1,65 @@
 package island;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class CatchFish extends Task {
-	Rectangle r = new Rectangle(0, 0, 50, 50);
-	private boolean caught = false;
-	public CatchFish() {
+	private int fishCaught;
+	private boolean caught;
+	private Text text;
+	private Font stringFont;
+	private Music sfx;
+	
+	public CatchFish(int charSize) {
+		fishCaught = 0;
+		caught = false;
+		stringFont = new Font( "SansSerif", Font.PLAIN, 15);
+		sfx = new Music("WaterSplash.wav", false, "water sound");
+		text = new Text("Wow I remember something about my father teaching me to fish \r\n" +
+				"I have to press c to fish, and I should hear a noise.", "brach.png", charSize);
+		
 		System.out.println("Created task Catch Fish");
 	}
-	public boolean isFished(Protagonist p, int x, int y) {
-		Rectangle r = new Rectangle(x, y, 50, 50);// adjust these #'s
-		if (r.intersects(p.getRect())) {
+	
+	public void update(Protagonist p, int x, int y, Graphics g, Font f, int textWidth, int textHeight) {
+		if(isAtPier(p, x, y) && !didCatchAllFish()) {
+			text.print(g, f, textWidth, textHeight);
+			g.setColor(Color.black);
+			g.setFont(stringFont);
+			g.drawString("I have caught " + fishCaught + " fish.", 65, 595);
+			
+		} else if (!isCompleted()) {
+			g.setColor(Color.black);
+			g.drawString("Go to the Pier", 65, 595);
+			g.drawRect(x - 3286, y - 1181, 100, 100);
+		}
+		
+		if (didCatchAllFish()) {
+			setCompleted();
+		}
+	}
+	
+	public void catchFish(KeyEvent e, Protagonist p, int x, int y) {
+		if(e.getKeyCode() == 67 && isAtPier(p, x, y)) {
+			fishCaught++;
+			sfx.play();
+		}
+	}
+	
+	public boolean didCatchAllFish() {
+		return fishCaught == 3;
+	}
+	
+	public boolean isAtPier(Protagonist p, int x, int y) {
+		Rectangle pier = new Rectangle(x - 3286, y - 1181, 100, 100);// adjust these #'s
+		if (pier.intersects(p.getRect())) {
 			return true;
 		} else {
 			return false;
 		}
 	
-	}
-	public void update(Protagonist p, int x, int y, Graphics g) {
-		if(isFished(p, x, y)) {
-			setCompleted();
-		}else {
-			g.drawString("Press c to start catching fish", 0, 100);
-		}
-		if(caught) {
-			g.drawString("Fish Caught!!!!", 0, 100);
-		}
-	}
-	public void catchFish(KeyEvent e) {
-		if(e.getKeyCode() == 67) {
-			caught = true; 
-			
-		}
 	}
 }
