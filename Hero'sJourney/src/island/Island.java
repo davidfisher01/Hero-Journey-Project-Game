@@ -26,6 +26,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 	Fisherman fisherman;
 	Queen queen;
 	Extra princess;
+	Villagers villagers;
 	Extra bridge;
 	
 	Checklist c; //tasks
@@ -103,9 +104,11 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 			g.setColor(Color.black);
 			g.drawString("The game is finished!", 0, 100);
 			g.drawString("Congratulations", 0, 150);
-			
 			g.drawString("Now Playing:", 0, 300);
 			g.drawString(bg.get(songNum).getSongName(), 0, 350);
+			
+			g.setFont(verdanaSmall);
+			g.drawString("Close the application to start over", 0, 525);
 			
 			//update music
 			updateMusic();
@@ -142,6 +145,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		fisherman.paint(g);
 		queen.paint(g);
 		princess.paint(g);
+		villagers.paint(g);
 		bridge.paint(g);
 		
 		//paint player and checklist last
@@ -161,6 +165,8 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		queen.setVy(vy);
 		princess.setVx(vx);
 		princess.setVy(vy);
+		villagers.setVx(vx);
+		villagers.setVy(vy);
 		bridge.setVx(vx);
 		bridge.setVy(vy);
 		
@@ -170,6 +176,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collisionFalse(fisherman);
 		p.collisionFalse(queen);
 		p.collisionFalse(princess);
+		for(int j = 0; j < villagers.v.size(); j++) {
+			p.collisionFalse(villagers.v.get(j));
+		}
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionFalse(i.iCol.get(j));
 		}
@@ -180,6 +189,9 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		p.collisionTrue(fisherman);
 		p.collisionTrue(queen);
 		p.collisionTrue(princess);
+		for(int j = 0; j < villagers.v.size(); j++) {
+			p.collisionTrue(villagers.v.get(j));
+		}
 		for(int j = 0; j < i.getColSize(); j++) {
 			p.collisionTrue(i.iCol.get(j));
 		}
@@ -223,6 +235,16 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		}
 		if (fisherman.didPrint()) {
 			c.settFour(true);
+		}
+		
+		//making noises with villagers
+		if (villagers.isIntersect(p)) {
+			if (villagers.isPlay()) {
+				villagers.playSound();
+			}
+			villagers.setPlay(false);
+		} else {
+			villagers.setPlay(true);
 		}
 		
 		//is the game finished?
@@ -305,12 +327,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		System.out.println("Frame: " + width + ", " + height);
 		
 		i = new IslandBackground(width*4, height*5);
-		p = new Protagonist("bronc.png", midX - 50, midY - 50, 100, 100);
+		p = new Protagonist("brach.png", midX - 50, midY - 50, 100, 100);
 		blacksmith = new Blacksmith(1199, -1306, 100, 100, height/4);
 		florist = new Florist(-2066, -911, 100, 100, height/4);
 		fisherman = new Fisherman(-2951, -1321, 100, 100, height/4);
 		queen = new Queen(-2366, -2506, 100, 100, height/4);
 		princess = new Extra("princess.png", -2556, -2506, 100, 100);
+		villagers = new Villagers();
 		bridge = new Extra("bridge.png", -30, -1175, 2*213, 2*60);
 		
 		c = new Checklist(height/4);

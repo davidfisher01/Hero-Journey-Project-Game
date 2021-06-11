@@ -81,7 +81,6 @@ public class IslandBackground extends Sprite{
 		iCol.add(new ColRects(-3541, -1321, 215, 380));
 		iCol.add(new ColRects(-3496, -1056, 480, 120));
 		iCol.add(new ColRects(-3166, -1066, 160, 1820));
-		iCol.add(new ColRects(-696, -771, 45, 15));
 		iCol.add(new ColRects(-1116, -446, 210, 930));
 		iCol.add(new ColRects(-906, -441, 1200, 145));
 		iCol.add(new ColRects(79, -1081, 215, 740));

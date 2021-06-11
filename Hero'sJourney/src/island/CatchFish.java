@@ -19,7 +19,7 @@ public class CatchFish extends Task {
 		stringFont = new Font( "SansSerif", Font.PLAIN, 15);
 		sfx = new Music("WaterSplash.wav", false, "water sound");
 		text = new Text("Wow I remember something about my father teaching me to fish \r\n" +
-				"I have to press c to fish, and I should hear a noise.", "bronc.png", charSize);
+				"I have to press c to fish, and I should hear a noise.", "brach.png", charSize);
 		
 		System.out.println("Created task Catch Fish");
 	}
