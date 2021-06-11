@@ -135,11 +135,6 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		
 		//call paint methods of objects
 		i.paint(g);
-		g.setColor(Color.black);
-		for(int k = 0; k < i.getColSize(); k++) {
-			g.drawRect(i.iCol.get(k).getX(), i.iCol.get(k).getY(), i.iCol.get(k).getWidth(), i.iCol.get(k).getHeight());
-		}
-		g.setColor(Color.orange);
 		blacksmith.paint(g);
 		florist.paint(g);
 		fisherman.paint(g);
@@ -151,6 +146,13 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		//paint player and checklist last
 		c.updateTasks(p, x, y, g, verdanaSmall, width, height/4);
 		p.paint(g);
+		
+		//escape menu
+		g.setColor(Color.orange);
+		g.setFont(verdanaSmall);
+		g.fillRect(0, 475, 225, 25);
+		g.setColor(Color.black);
+		g.drawString("press esc to pause", 0, 495);
 		
 		//move all objects but the player
 		i.setVx(vx);
@@ -332,7 +334,7 @@ public class Island extends JPanel implements ActionListener, KeyListener, Mouse
 		florist = new Florist(-2066, -911, 100, 100, height/4);
 		fisherman = new Fisherman(-2951, -1321, 100, 100, height/4);
 		queen = new Queen(-2366, -2506, 100, 100, height/4);
-		princess = new Extra("princess.png", -2556, -2506, 100, 100);
+		princess = new Extra("princess.png", -2456, -2506, 100, 100);
 		villagers = new Villagers();
 		bridge = new Extra("bridge.png", -30, -1175, 2*213, 2*60);
 		

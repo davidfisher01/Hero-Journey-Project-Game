@@ -17,11 +17,6 @@ public class WalkToTown extends Task{
 		if(isAtTown(p, x, y)) {
 			setCompleted();
 		}
-
-		if (!isCompleted()) {
-			g.setColor(Color.green);
-			g.drawRect(x + 300, y - 1000, 1700, 50);
-		}
 	}
 	
 	public boolean isAtTown(Protagonist p, int x, int y) {

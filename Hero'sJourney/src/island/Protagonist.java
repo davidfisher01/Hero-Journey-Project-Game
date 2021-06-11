@@ -25,12 +25,6 @@ public class Protagonist extends Sprite{
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		
-		g.setColor(Color.red);
-		g.drawLine(x, y, x, y + height);					//left
-		g.drawLine(x, y, x + width, y);						//top
-		g.drawLine(x + width, y, x + width, y + height);	//right
-		g.drawLine(x, y + height, x + width, y + height);	//bot
 	}
 	
 	public void collisionTrue (ColRects e) {

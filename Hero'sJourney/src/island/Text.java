@@ -57,8 +57,6 @@ public class Text {
 		character.setX(width - charSize);
 		character.setY(0);
 		character.paint(g);
-		
-		didPrint = true;
 	}
 	
 	public void drawString(Graphics g, String text, int x, int y) {

@@ -27,6 +27,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 	Extra d;
 	Extra d2;
 	Extra d3;
+	Extra d4;
+	Extra d5;
 	
 	Music bg;
 	Font verdana = new Font("Verdana", Font.BOLD, 40);
@@ -76,7 +78,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 				//songs
 				g.setFont(verdanaSmall);
 				g.drawString("Title Song: Stegosaurus by Howdytoons", 200, 100);
-				g.drawString("Boss Music: ", 200, 125);
+				g.drawString("Boss Music: none yet :(", 200, 125);
 				g.drawString("22 by Taylor Swift", 200, 150);
 				g.drawString("Californication by Red Hot Chili Peppers", 200, 175);
 				g.drawString("Even Flow by Pearl Jam", 200, 200);
@@ -130,14 +132,16 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		}
 		
 		//paint main menu
+		d.paint(g);								//paint dinosaur 2nd quadrant
 		d2.paint(g);							//paint dinosaur 4th quadrant
+		d4.paint(g);							//paint dinosaur 1st quadrant
+		d5.paint(g);							//paint dinosaur 3rd quadrant
 		g.setColor(Color.black);				//set color to black
 		g.drawRect(start.x, start.y - start.height, start.width, start.height);		//draw rectangle to click
 		g.drawRect(credits.x, credits.y - credits.height, credits.width, credits.height);		//draw rectangle to click
 		g.drawString("Start", 0, 100);			//draw string to click on
 		g.drawString("Credits", 0, 300);		//draw string to click on
 		g.drawString("Dino Crossing", width - 350, 100);	//title of game
-		d.paint(g);								//paint dinosaur 2nd quadrant
 	}
 	
 	/* constructor for MainPain class */
@@ -179,6 +183,8 @@ public class Menu extends JPanel implements ActionListener, MouseListener, KeyLi
 		d = new Extra("brach.png", 155, 70, 300, 100);
 		d2 = new Extra("stego.png", midX, midY, midX, midY);
 		d3 = new Extra("ninja.png", midX - 150, midY - 150 - 50, 300, 300);
+		d4 = new Extra("para.png", midX, 100, 200, 200);
+		d5 = new Extra("trex.png", 50, midY, 400, 300);
 		
 		bg = new Music("Stegosaurus.wav", true, "Stegosaurus by Howdytoons");
 		bg.loop();

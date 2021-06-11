@@ -24,12 +24,6 @@ public class Extra extends Sprite {
 		} else {
 			update();
 		}
-		
-		g.setColor(Color.orange);
-		g.drawLine(x, y, x, y + height);					//left
-		g.drawLine(x, y, x + width, y);						//top
-		g.drawLine(x + width, y, x + width, y + height);	//right
-		g.drawLine(x, y + height, x + width, y + height);	//bot
 	}
 	
 	public void update() {

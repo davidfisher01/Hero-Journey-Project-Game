@@ -48,6 +48,8 @@ public class CollectFlowers extends Task{
 			setCompleted();
 		}
 		
+		g.setColor(Color.green);
+		
 		if (!flowerOne) {
 			g.drawRect(x + x1, y + y1, 100, 50);
 		}
